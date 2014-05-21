@@ -1,13 +1,13 @@
 package dk.ange.stowbase.edifact.baplie;
 
-import java.util.ArrayList;
-import java.util.List;
+//import java.util.ArrayList;
+//import java.util.List;
 
-import org.stowbase.client.References;
-import org.stowbase.client.StowbaseObjectFactory;
-import org.stowbase.client.objects.Container;
-import org.stowbase.client.objects.DangerousGoods;
-import org.stowbase.client.objects.Move;
+//import org.stowbase.client.References;
+//import org.stowbase.client.StowbaseObjectFactory;
+//import org.stowbase.client.objects.Container;
+//import org.stowbase.client.objects.DangerousGoods;
+//import org.stowbase.client.objects.Move;
 
 import dk.ange.stowbase.edifact.Segment;
 import dk.ange.stowbase.edifact.parser.ContentHandler;
@@ -19,18 +19,22 @@ public class BaplieContentHandler implements ContentHandler {
 
     private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(BaplieContentHandler.class);
 
-    private final StowbaseObjectFactory stowbase;
+//    private final StowbaseObjectFactory stowbase;
 
-    private final String vesselImo;
+//    private final String vesselImo;
 
-    private Container container;
+//    private Container container;
 
+    @SuppressWarnings("unused")
     private int bay;
 
+    @SuppressWarnings("unused")
     private int row;
 
+    @SuppressWarnings("unused")
     private int tier;
 
+    @SuppressWarnings("unused")
     private Segment temperature;
 
     private String loadPort;
@@ -46,18 +50,18 @@ public class BaplieContentHandler implements ContentHandler {
 
     private int count = 0;
 
-    private final References moves = new References();
+//    private final References moves = new References();
+//
+//    private final List<DangerousGoods> dangerousGoodsList = new ArrayList<DangerousGoods>();
 
-    private final List<DangerousGoods> dangerousGoodsList = new ArrayList<DangerousGoods>();
-
-    /**
-     * @param stowbase
-     * @param vesselImo
-     */
-    public BaplieContentHandler(final StowbaseObjectFactory stowbase, final String vesselImo) {
-        this.stowbase = stowbase;
-        this.vesselImo = vesselImo;
-    }
+//    /**
+//     * @param stowbase
+//     * @param vesselImo
+//     */
+//    public BaplieContentHandler(final StowbaseObjectFactory stowbase, final String vesselImo) {
+//        this.stowbase = stowbase;
+//        this.vesselImo = vesselImo;
+//    }
 
     public void segment(final String position, final Segment segment) {
         if (position.startsWith("LOC/")) {
@@ -79,7 +83,7 @@ public class BaplieContentHandler implements ContentHandler {
             } else if (position.equals("LOC/MEA")) {
                 if (segment.get(0, 0, "").equals("WT")) {
                     if (segment.get(2, 0, "").equals("KGM")) {
-                        container.setGrossWeightInKg(Integer.parseInt(segment.get(2, 1, null)));
+//                        container.setGrossWeightInKg(Integer.parseInt(segment.get(2, 1, null)));
                     } else {
                         throw new RuntimeException("Didn't expect this: " + segment.get(2, 0, null));
                     }
@@ -113,16 +117,16 @@ public class BaplieContentHandler implements ContentHandler {
                 if (segment.get(0, 0, "").equals("CN")) {
                     final String containerId = segment.get(1, 0, null);
                     if (containerId != null) {
-                        container.setContainerId(containerId);
+//                        container.setContainerId(containerId);
                     }
-                    container.put("rawIsoCode", segment.get(2, 0, null));
+//                    container.put("rawIsoCode", segment.get(2, 0, null));
                     final String isEmptyString = segment.get(5, 0, null);
                     if (isEmptyString == null) {
                         // Skip
                     } else if (isEmptyString.equals("4")) {
-                        container.setIsEmpty(true);
+//                        container.setIsEmpty(true);
                     } else if (isEmptyString.equals("5")) {
-                        container.setIsEmpty(false);
+//                        container.setIsEmpty(false);
                     } else {
                         throw new RuntimeException("Didn't expect this: " + isEmptyString);
                     }
@@ -132,7 +136,7 @@ public class BaplieContentHandler implements ContentHandler {
             } else if (position.equals("LOC/EQD/NAD")) {
                 // Ignore: Segment[NAD+CA+MSK:172:20'] means shipped by Maersk
             } else if (position.equals("LOC/DGS/DGS")) { // Segment[DGS+IMD+4.1+2556']
-                dangerousGoodsList.add(new DangerousGoods(segment.get(2, 0, ""), segment.get(1, 0, "")));
+//                dangerousGoodsList.add(new DangerousGoods(segment.get(2, 0, ""), segment.get(1, 0, "")));
             } else if (position.equals("LOC/DGS/FTX")) {
                 // Ignore: Segment[FTX+AAA+++INFLAMMABLE SOLID'] dg explanation
             } else {
@@ -142,7 +146,7 @@ public class BaplieContentHandler implements ContentHandler {
     }
 
     private void clearContainer() {
-        container = null;
+//        container = null;
         bay = -1;
         row = -1;
         tier = -1;
@@ -151,45 +155,45 @@ public class BaplieContentHandler implements ContentHandler {
         altLoadPort = null;
         dischargePort = null;
         altDischargePort = null;
-        dangerousGoodsList.clear();
+//        dangerousGoodsList.clear();
     }
 
     public void startGroup(final String position) {
         if (position.equals("LOC")) {
             clearContainer();
-            container = Container.create(stowbase);
+//            container = Container.create(stowbase);
         }
         // System.out.println("startGroup: " + position);
     }
 
     public void endGroup(final String position) {
         if (position.equals("LOC")) {
-            container.setLiveReefer(temperature != null);
-            if (!dangerousGoodsList.isEmpty()) {
-                container.setDangerousGoods(dangerousGoodsList);
-            }
+//            container.setLiveReefer(temperature != null);
+//            if (!dangerousGoodsList.isEmpty()) {
+//                container.setDangerousGoods(dangerousGoodsList);
+//            }
             // Load move
             if (loadPort == null) {
                 loadPort = altLoadPort;
             }
-            final Move loadMove = Move.create(stowbase);
-            moves.add(loadMove.getReference());
-            if (loadPort != null && !loadPort.equals("VSL")) {
-                loadMove.setFromPort(loadPort);
-            }
-            loadMove.setToSlot(vesselImo, bay, row, tier);
-            loadMove.setCargo(container);
+//            final Move loadMove = Move.create(stowbase);
+//            moves.add(loadMove.getReference());
+//            if (loadPort != null && !loadPort.equals("VSL")) {
+//                loadMove.setFromPort(loadPort);
+//            }
+//            loadMove.setToSlot(vesselImo, bay, row, tier);
+//            loadMove.setCargo(container);
             // Discharge move
             if (dischargePort == null) {
                 dischargePort = altDischargePort;
             }
-            final Move dischargeMove = Move.create(stowbase);
-            moves.add(dischargeMove.getReference());
-            dischargeMove.setFromSlot(vesselImo, bay, row, tier);
-            if (dischargePort != null) { // no dischargePort ???
-                dischargeMove.setToPort(dischargePort);
-            }
-            dischargeMove.setCargo(container);
+//            final Move dischargeMove = Move.create(stowbase);
+//            moves.add(dischargeMove.getReference());
+//            dischargeMove.setFromSlot(vesselImo, bay, row, tier);
+//            if (dischargePort != null) { // no dischargePort ???
+//                dischargeMove.setToPort(dischargePort);
+//            }
+//            dischargeMove.setCargo(container);
             // Clear
             clearContainer();
         }
@@ -206,8 +210,8 @@ public class BaplieContentHandler implements ContentHandler {
     /**
      * @return Created moves
      */
-    public References getMoves() {
-        return moves;
-    }
+//    public References getMoves() {
+//        return moves;
+//    }
 
 }

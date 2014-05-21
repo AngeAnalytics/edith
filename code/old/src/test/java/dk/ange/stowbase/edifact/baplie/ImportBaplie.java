@@ -2,10 +2,6 @@ package dk.ange.stowbase.edifact.baplie;
 
 import java.io.InputStream;
 
-import org.stowbase.client.StowbaseObjectFactory;
-import org.stowbase.client.export.FileWriterExporter;
-import org.stowbase.client.export.WriterExporter;
-
 import dk.ange.stowbase.edifact.format.FormatReader;
 import dk.ange.stowbase.edifact.lexer.EdifactLexer;
 import dk.ange.stowbase.edifact.parser.EdifactReader;
@@ -14,8 +10,6 @@ import dk.ange.stowbase.edifact.parser.EdifactReader;
  * Import a BAPLIE into stowbase
  */
 public class ImportBaplie {
-
-    private final WriterExporter writerExporter = new FileWriterExporter();
 
     private ImportBaplie() {
         // this.stowbase = RemoteStowbase.forBaseUrl(StowbaseProperties.getServerUri()).bundle();
@@ -36,16 +30,13 @@ public class ImportBaplie {
     }
 
     private void parse(final String fileName) {
-        final StowbaseObjectFactory stowbase = writerExporter.stowbaseObjectFactory();
         final EdifactReader reader = new EdifactReader();
-        final BaplieContentHandler contentHandler = new BaplieContentHandler(stowbase, "1000000");
+        final BaplieContentHandler contentHandler = new BaplieContentHandler();
         reader.setContentHandler(contentHandler);
         reader.setSegmentTable(FormatReader.readFormat(BaplieContentHandler.class.getResourceAsStream("BAPLIE_D.95B")));
         final InputStream inputStream = ImportBaplie.class.getResourceAsStream(fileName);
         reader.parse(new EdifactLexer(inputStream));
         System.out.println("Saw " + contentHandler.getCount() + " containers in " + fileName);
-        stowbase.flush();
-        writerExporter.flush(fileName + ".json");
     }
 
 }
