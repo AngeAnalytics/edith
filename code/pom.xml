@@ -13,6 +13,7 @@
   <description>The core dependencies for the Edith EDI parsing tools</description>
 
   <modules>
+    <module>old</module>
     <module>edith</module>
   </modules>
 
