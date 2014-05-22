@@ -11,7 +11,7 @@ import com.google.common.collect.MultimapBuilder;
  */
 public class GroupBuilder {
 
-    private final ListMultimap<TagInstance, Segment> segments = MultimapBuilder.hashKeys().arrayListValues().build();
+    private final ListMultimap<TagOccurrence, Segment> segments = MultimapBuilder.hashKeys().arrayListValues().build();
 
     private final ListMultimap<Integer, GroupBuilder> groups = MultimapBuilder.hashKeys().arrayListValues().build();
 
@@ -24,14 +24,14 @@ public class GroupBuilder {
 
     /**
      * @param segment
-     * @param instance
+     * @param occurrence
      */
-    public void add(final Segment segment, final int instance) {
-        segments.put(new TagInstance(segment.getTag(), instance), segment);
+    public void add(final Segment segment, final int occurrence) {
+        segments.put(new TagOccurrence(segment.getTag(), occurrence), segment);
     }
 
     /**
-     * Adds segment as the first instance
+     * Adds segment as the first occurrence
      *
      * @param segment
      */

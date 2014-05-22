@@ -1,28 +1,28 @@
 package dk.ange.edith.data;
 
 /**
- * Tag is the three letter EDIFACT tag used to identify each segment type, instance is used when the same tag is used
- * multiple times in a group, the first use is instance 1 the second 2 etc.
+ * Tag is the three letter EDIFACT tag used to identify each segment type, occurrence is used when the same tag is used
+ * multiple times in a group, the first use is occurrence 1 the second 2 etc.
  */
-public class TagInstance {
+public class TagOccurrence {
 
     private final String tag;
 
-    private final int instance;
+    private final int occurrence;
 
-    TagInstance(final String tag, final int instance) {
+    TagOccurrence(final String tag, final int occurrence) {
         if (tag == null) {
             throw new NullPointerException("tag == null");
         }
         this.tag = tag;
-        this.instance = instance;
+        this.occurrence = occurrence;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + instance;
+        result = prime * result + occurrence;
         result = prime * result + ((tag == null) ? 0 : tag.hashCode());
         return result;
     }
@@ -38,8 +38,8 @@ public class TagInstance {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final TagInstance other = (TagInstance) obj;
-        if (instance != other.instance) {
+        final TagOccurrence other = (TagOccurrence) obj;
+        if (occurrence != other.occurrence) {
             return false;
         }
         if (tag == null) {
@@ -54,7 +54,7 @@ public class TagInstance {
 
     @Override
     public String toString() {
-        return "TagInstance(" + tag + "/" + instance + ")";
+        return "TagOccurrence(" + tag + "/" + occurrence + ")";
     }
 
 }

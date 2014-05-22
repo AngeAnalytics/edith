@@ -25,7 +25,7 @@ public class BaplieReader {
         builder.put("TDT", -10, Transition.to(1).pop(1));
         builder.put("DTM", 1, Transition.to(-10));
         builder.put("LOC", -10, Transition.to(2).pop(1));
-        builder.put("LOC", -20, Transition.to(-20).instance(2));
+        builder.put("LOC", -20, Transition.to(-20).occurrence(2));
         builder.put("LOC", -21, Transition.to(2).pop(1));
         builder.put("LOC", 3, Transition.to(2).pop(2));
         builder.put("LOC", 4, Transition.to(2).pop(2));
@@ -83,7 +83,7 @@ public class BaplieReader {
                     stack.push(newGroupbuilder);
                 }
                 state = transition.state;
-                stack.getFirst().add(segment, transition.instance);
+                stack.getFirst().add(segment, transition.occurrence);
             } else {
                 stack.getFirst().add(segment);
             }
@@ -106,24 +106,24 @@ public class BaplieReader {
 
         final int pop;
 
-        final int instance;
+        final int occurrence;
 
         static Transition to(final int state) {
             return new Transition(state, 0, 1);
         }
 
-        private Transition(final int state, final int pop, final int instance) {
+        private Transition(final int state, final int pop, final int occurrence) {
             this.state = state;
-            this.instance = instance;
+            this.occurrence = occurrence;
             this.pop = pop;
         }
 
         Transition pop(final int newPop) {
-            return new Transition(state, newPop, instance);
+            return new Transition(state, newPop, occurrence);
         }
 
-        Transition instance(final int newInstance) {
-            return new Transition(state, pop, newInstance);
+        Transition occurrence(final int newOccurrence) {
+            return new Transition(state, pop, newOccurrence);
         }
 
         boolean createNewGroup() {

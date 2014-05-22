@@ -34,7 +34,7 @@ public class Group {
      * UNT
      */
 
-    private final Map<TagInstance, List<Segment>> segments;
+    private final Map<TagOccurrence, List<Segment>> segments;
 
     private final Map<Integer, List<Group>> groups;
 
@@ -49,11 +49,11 @@ public class Group {
 
     /**
      * @param tag
-     * @param instance
-     * @return the list of all segments for the given tag+instance combo
+     * @param occurrence
+     * @return the list of all segments for the given tag+occurrence combo
      */
-    public List<Segment> getSegmentList(final String tag, final int instance) {
-        final List<Segment> list = segments.get(new TagInstance(tag, instance));
+    public List<Segment> getSegmentList(final String tag, final int occurrence) {
+        final List<Segment> list = segments.get(new TagOccurrence(tag, occurrence));
         return list == null ? Collections.<Segment>emptyList() : list;
     }
 
@@ -67,13 +67,13 @@ public class Group {
 
     /**
      * @param tag
-     * @param instance
-     * @return the single segment for the given tag+instance combo, null if there is no such segment
+     * @param occurrence
+     * @return the single segment for the given tag+occurrence combo, null if there is no such segment
      * @throws IllegalStateException
      *             if there is more than one segment
      */
-    public Segment getSegment(final String tag, final int instance) {
-        final List<Segment> list = getSegmentList(tag, instance);
+    public Segment getSegment(final String tag, final int occurrence) {
+        final List<Segment> list = getSegmentList(tag, occurrence);
         if (list.isEmpty()) {
             return null;
         } else if (list.size() == 1) {
