@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * A base class that parses lines of tab-separated items into "some model R"
- * 
+ *
  * @param <R>
  *            The model that the tab separated items should be parsed into.
  */
@@ -14,7 +14,7 @@ public abstract class TabSeparatedItems<R> implements DataItemParser<String, R> 
     @Override
     final public ParseState<R> parse(final String item, final ParseState<R> parseState) {
         final String[] items = item.split("\t");
-        final List<String> l = new ArrayList<String>(items.length);
+        final List<String> l = new ArrayList<>(items.length);
         for (final String s : items) {
             l.add(s.trim());
         }
@@ -23,7 +23,7 @@ public abstract class TabSeparatedItems<R> implements DataItemParser<String, R> 
 
     /**
      * Process the list of tab-separated items from the original String.
-     * 
+     *
      * @param l
      *            An array-list of the items that were tab-separated in the original String.
      * @param parseState
@@ -35,7 +35,7 @@ public abstract class TabSeparatedItems<R> implements DataItemParser<String, R> 
     /**
      * A method that tries "very hard" to convert a String to a floating point value, even if it uses , instead of . to
      * separate decimal part.
-     * 
+     *
      * @param s
      *            The string to convert to a double.
      * @return The string converted to a double.

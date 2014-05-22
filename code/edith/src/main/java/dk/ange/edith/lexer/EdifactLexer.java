@@ -32,7 +32,7 @@ public final class EdifactLexer implements Iterator<Segment> {
     @SuppressWarnings("cast")
     private void updateNext() {
         if (scanner.hasNext()) {
-            final List<Token> tokenList = new ArrayList<Token>();
+            final List<Token> tokenList = new ArrayList<>();
             while (true) {
                 final Token token = scanner.next();
                 // TODO fix code:

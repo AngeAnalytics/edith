@@ -43,7 +43,7 @@ public class EdifactFactory /* extends Factory<Tag, Segment, ContentHandler> */{
         }
     };
 
-    private static final SingleItemSequence<Tag, Segment, ContentHandler> END_OF_FILE_SEQUENCE = new SingleItemSequence<Tag, Segment, ContentHandler>(
+    private static final SingleItemSequence<Tag, Segment, ContentHandler> END_OF_FILE_SEQUENCE = new SingleItemSequence<>(
             Tag.END_OF_EDIFACT_FILE, NEUTRAL);
 
     private static class SegmentGroupSequence implements Sequence<Tag, Segment, ContentHandler> {
@@ -129,7 +129,7 @@ public class EdifactFactory /* extends Factory<Tag, Segment, ContentHandler> */{
     private static Sequence<Tag, Segment, ContentHandler> groupToSequence(final SegmentGroupFormat group,
             final Sequence<Tag, Segment, ContentHandler> followedBy, final String pathToParent) {
 
-        final List<AbstractSegmentFormat> members = new LinkedList<AbstractSegmentFormat>(group.getMembers());
+        final List<AbstractSegmentFormat> members = new LinkedList<>(group.getMembers());
         final List<Pair<AbstractSegmentFormat, String>> membersReversed = reversedMembers(pairWithUniqueTags(members));
 
         Sequence<Tag, Segment, ContentHandler> current = followedBy;
@@ -148,9 +148,8 @@ public class EdifactFactory /* extends Factory<Tag, Segment, ContentHandler> */{
 
     private static List<Pair<AbstractSegmentFormat, String>> pairWithUniqueTags(
             final List<AbstractSegmentFormat> members) {
-        final List<Pair<AbstractSegmentFormat, String>> res = new ArrayList<Pair<AbstractSegmentFormat, String>>(
-                members.size());
-        final Map<String, Integer> countMap = new HashMap<String, Integer>();
+        final List<Pair<AbstractSegmentFormat, String>> res = new ArrayList<>(members.size());
+        final Map<String, Integer> countMap = new HashMap<>();
 
         for (final AbstractSegmentFormat item : members) {
             final String uncountedTag;
@@ -172,7 +171,7 @@ public class EdifactFactory /* extends Factory<Tag, Segment, ContentHandler> */{
                 countedTag = uncountedTag;
                 countMap.put(uncountedTag, 1);
             }
-            res.add(new Pair<AbstractSegmentFormat, String>(item, countedTag));
+            res.add(new Pair<>(item, countedTag));
         }
         return res;
     }
@@ -188,8 +187,7 @@ public class EdifactFactory /* extends Factory<Tag, Segment, ContentHandler> */{
 
     private static List<Pair<AbstractSegmentFormat, String>> reversedMembers(
             final List<Pair<AbstractSegmentFormat, String>> members) {
-        final List<Pair<AbstractSegmentFormat, String>> membersReversed = new ArrayList<Pair<AbstractSegmentFormat, String>>(
-                members);
+        final List<Pair<AbstractSegmentFormat, String>> membersReversed = new ArrayList<>(members);
         Collections.reverse(membersReversed);
         return membersReversed;
     }
@@ -197,16 +195,15 @@ public class EdifactFactory /* extends Factory<Tag, Segment, ContentHandler> */{
     private static Sequence<Tag, Segment, ContentHandler> itemToSequence(final SegmentFormat item,
             final Sequence<Tag, Segment, ContentHandler> followedBy, final String pathToParent,
             final String countedTagName) {
-        final Sequence<Tag, Segment, ContentHandler> toWrap = new SingleItemSequence<Tag, Segment, ContentHandler>(item
-                .getTag(), new EdifactParseAction(pathToParent, countedTagName));
+        final Sequence<Tag, Segment, ContentHandler> toWrap = new SingleItemSequence<>(item.getTag(),
+                new EdifactParseAction(pathToParent, countedTagName));
         if (item.isMandatory()) {
-            final List<Sequence<Tag, Segment, ContentHandler>> compositeSequence = new ArrayList<Sequence<Tag, Segment, ContentHandler>>(
-                    2);
-            compositeSequence.add(new OneOrMore<Tag, Segment, ContentHandler>(toWrap));
+            final List<Sequence<Tag, Segment, ContentHandler>> compositeSequence = new ArrayList<>(2);
+            compositeSequence.add(new OneOrMore<>(toWrap));
             compositeSequence.add(followedBy);
-            return new CompoundSequence<Tag, Segment, ContentHandler>(compositeSequence);
+            return new CompoundSequence<>(compositeSequence);
         } else {
-            return new ZeroOrMore<Tag, Segment, ContentHandler>(toWrap, followedBy);
+            return new ZeroOrMore<>(toWrap, followedBy);
         }
     }
 

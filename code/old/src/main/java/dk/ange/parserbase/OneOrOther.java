@@ -24,7 +24,7 @@ public class OneOrOther<T, D, R> implements Sequence<T, D, R> {
      *            The sequences that this sequence will accept one of.
      */
     public OneOrOther(final List<Sequence<T, D, R>> alternatives) {
-        this.alternatives = new ArrayList<Sequence<T, D, R>>(alternatives);
+        this.alternatives = new ArrayList<>(alternatives);
     }
 
     @Override
