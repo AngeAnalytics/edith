@@ -52,10 +52,12 @@ public final class EdifactLexer implements Iterator<Segment> {
         }
     }
 
+    @Override
     public boolean hasNext() {
         return next != null;
     }
 
+    @Override
     public Segment next() {
         if (!hasNext()) {
             throw new NoSuchElementException();
@@ -65,6 +67,7 @@ public final class EdifactLexer implements Iterator<Segment> {
         return oldNext;
     }
 
+    @Override
     public void remove() {
         throw new UnsupportedOperationException(EdifactLexer.class.getSimpleName() + " can not remove()");
     }

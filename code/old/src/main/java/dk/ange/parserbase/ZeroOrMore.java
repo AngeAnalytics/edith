@@ -26,10 +26,12 @@ public class ZeroOrMore<T, D, R> implements Sequence<T, D, R> {
         wrapped = new Optional<T, D, R>(new OneOrMore<T, D, R>(repeatable), followedBy);
     }
 
+    @Override
     public boolean consumes(final T type) {
         return wrapped.consumes(type);
     }
 
+    @Override
     public ParseState<R> parse(final ItemProvider<T, D> itemProvider, final ParseState<R> initialState)
             throws ParseError {
         return wrapped.parse(itemProvider, initialState);
