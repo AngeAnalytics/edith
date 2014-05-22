@@ -1,5 +1,6 @@
 package dk.ange.stowbase.edifact.parser;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import dk.ange.stowbase.edifact.Segment;
@@ -13,13 +14,15 @@ public class RunAsjFormat {
 
     /**
      * @param args
+     * @throws IOException
      */
-    public static void main(final String[] args) {
+    public static void main(final String[] args) throws IOException {
         final EdifactReader reader = new EdifactReader();
         reader.setContentHandler(new CH());
         reader.setSegmentTable(FormatReader.readFormat(BaplieTest.class.getResourceAsStream("ASJ_D.95B")));
-        final InputStream inputStream = BaplieTest.class.getResourceAsStream("ASJ.edi.txt");
-        reader.parse(new EdifactLexer(inputStream));
+        try (final InputStream inputStream = BaplieTest.class.getResourceAsStream("ASJ.edi.txt")) {
+            reader.parse(new EdifactLexer(inputStream));
+        }
     }
 
     private static class CH implements ContentHandler {
