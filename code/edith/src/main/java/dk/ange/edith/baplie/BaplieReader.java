@@ -1,6 +1,10 @@
 package dk.ange.edith.baplie;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 import com.google.common.collect.ImmutableTable;
+import com.google.common.collect.ImmutableTable.Builder;
 import com.google.common.collect.Table;
 
 import dk.ange.edith.data.Group;
@@ -13,6 +17,28 @@ import dk.ange.edith.stream.EdifactEventReader;
  */
 public class BaplieReader {
 
+    private static final Table<String, Integer, Transition> STATE_TRANSITIONS = createStateTransitions();
+
+    private static Table<String, Integer, Transition> createStateTransitions() {
+        final Builder<String, Integer, Transition> builder = new ImmutableTable.Builder<>();
+        builder.put("TDT", 0, Transition.to(1));
+        builder.put("TDT", -10, Transition.to(1).pop(1));
+        builder.put("DTM", 1, Transition.to(-10));
+        builder.put("LOC", -10, Transition.to(2).pop(1));
+        builder.put("LOC", -20, Transition.to(-20).instance(2));
+        builder.put("LOC", -21, Transition.to(2).pop(1));
+        builder.put("LOC", 3, Transition.to(2).pop(2));
+        builder.put("LOC", 4, Transition.to(2).pop(2));
+        builder.put("MEA", 2, Transition.to(-20));
+        builder.put("RFF", -20, Transition.to(-21));
+        builder.put("EQD", -21, Transition.to(3));
+        builder.put("EQD", 3, Transition.to(3).pop(1));
+        builder.put("DGS", -21, Transition.to(4));
+        builder.put("DGS", 3, Transition.to(4).pop(1));
+        builder.put("DGS", 4, Transition.to(4).pop(1));
+        return builder.build();
+    }
+
     /**
      * Will read a BAPLIE message from the event reader.
      * <p>
@@ -24,38 +50,90 @@ public class BaplieReader {
      * @return the entire BAPLIE as a Group
      */
     public Group read(final EdifactEventReader eventReader) {
-        final GroupBuilder builder = new GroupBuilder();
+        final GroupBuilder group0builder = new GroupBuilder();
+
         // UNH
         final Segment unh = eventReader.peek();
         if (!acceptsUnh(unh)) {
             eventReader.report("Bad UNH segment");
-            return builder.build();
+            return group0builder.build();
         }
         eventReader.next();
-        builder.add(unh);
-        final int state = 0;
-        final Table<Integer, String, Integer> stateTransitions = new ImmutableTable.Builder<Integer, String, Integer>()
-                .build();
+        group0builder.add(unh);
+
+        // Rest of message
+        final Deque<GroupBuilder> stack = new ArrayDeque<>();
+        stack.push(group0builder);
+        int state = 0;
         while (eventReader.hasNext()) {
             final Segment segment = eventReader.next();
             final String tag = segment.getTag();
             if (tag.equals("UNT")) {
-                builder.add(segment);
+                group0builder.add(segment);
                 break;
             }
-            @SuppressWarnings("unused")
-            final Integer nextState = stateTransitions.get(state, tag);
-            // TODO Add more handing of state changes, need to redraw the paper I did from the BAPLIE rules.
+            if (STATE_TRANSITIONS.contains(tag, state)) {
+                final Transition transition = STATE_TRANSITIONS.get(tag, state);
+                for (int i = 0; i < transition.pop; ++i) {
+                    stack.pop();
+                }
+                if (transition.createNewGroup()) {
+                    final GroupBuilder newGroupbuilder = new GroupBuilder();
+                    stack.getFirst().add(transition.groupNumber(), newGroupbuilder);
+                    stack.push(newGroupbuilder);
+                }
+                state = transition.state;
+                stack.getFirst().add(segment, transition.instance);
+            } else {
+                stack.getFirst().add(segment);
+            }
         }
-        return builder.build();
+
+        assert !stack.isEmpty();
+        assert stack.getLast() == group0builder;
+        return group0builder.build();
     }
 
-    @SuppressWarnings("unused")
     private boolean acceptsUnh(final Segment unh) {
-        // TODO Auto-generated method stub
-        return true;
+        // TODO Expand to check identifier
+        return unh.getTag().equals("UNH");
     }
 
     // TODO add acceptsUnh(segment) or identifiersAccepted() method
+
+    private static class Transition {
+        final int state;
+
+        final int pop;
+
+        final int instance;
+
+        static Transition to(final int state) {
+            return new Transition(state, 0, 1);
+        }
+
+        private Transition(final int state, final int pop, final int instance) {
+            this.state = state;
+            this.instance = instance;
+            this.pop = pop;
+        }
+
+        Transition pop(final int newPop) {
+            return new Transition(state, newPop, instance);
+        }
+
+        Transition instance(final int newInstance) {
+            return new Transition(state, pop, newInstance);
+        }
+
+        boolean createNewGroup() {
+            return state > 0;
+        }
+
+        int groupNumber() {
+            return state;
+        }
+
+    }
 
 }

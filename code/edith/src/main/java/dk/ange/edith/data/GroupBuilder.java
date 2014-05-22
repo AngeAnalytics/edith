@@ -13,7 +13,7 @@ public class GroupBuilder {
 
     private final ListMultimap<TagInstance, Segment> segments = MultimapBuilder.hashKeys().arrayListValues().build();
 
-    private final ListMultimap<Integer, Group> groups = MultimapBuilder.hashKeys().arrayListValues().build();
+    private final ListMultimap<Integer, GroupBuilder> groups = MultimapBuilder.hashKeys().arrayListValues().build();
 
     /**
      * @return a Group build from the data in the builder
@@ -43,7 +43,7 @@ public class GroupBuilder {
      * @param groupNumber
      * @param group
      */
-    public void add(final int groupNumber, final Group group) {
+    public void add(final int groupNumber, final GroupBuilder group) {
         groups.put(groupNumber, group);
     }
 
