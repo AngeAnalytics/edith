@@ -22,4 +22,7 @@ public interface EdifactEventReader extends Iterator<Segment>, AutoCloseable {
     // TODO add categories? DATA_LOSS_IMPORTANT, DATA_LOSS_UNKNOWN, DATA_LOSS_MINOR, EXTRA_DATA
     public void report(String message);
 
+    @Override
+    public void close();
+
 }
