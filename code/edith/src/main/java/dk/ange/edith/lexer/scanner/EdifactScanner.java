@@ -8,7 +8,7 @@ import java.util.Iterator;
  * <p>
  * TODO See dk.ange.stowbase.edifact.scanner for an implementation
  */
-public final class EdifactScanner implements Iterator<Token> {
+public final class EdifactScanner implements Iterator<Token>, AutoCloseable {
 
     /**
      * @param is
@@ -34,6 +34,12 @@ public final class EdifactScanner implements Iterator<Token> {
     @Override
     public void remove() {
         // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void close() {
+        // TODO Auto-generated method stub
+
     }
 
 }

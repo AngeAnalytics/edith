@@ -4,33 +4,31 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import dk.ange.edith.data.Segment;
 import dk.ange.edith.lexer.scanner.EdifactScanner;
 import dk.ange.edith.lexer.scanner.Token;
+import dk.ange.edith.stream.EdifactEventReader;
 
 /**
  * Collects the scanned tokens into Segments
  */
 // Extract the UpdateNextIterator into a superclass
-public final class EdifactLexer implements Iterator<Segment> {
+public final class EdifactLexer extends PrefetchIterator<Segment> implements Iterator<Segment>, EdifactEventReader {
 
-    private final Iterator<Token> scanner;
-
-    private Segment next;
+    private final EdifactScanner scanner;
 
     /**
      * @param stream
      */
     public EdifactLexer(final InputStream stream) {
         scanner = new EdifactScanner(stream);
-        updateNext();
     }
 
     // TODO @SuppressWarnings("cast")
+    @Override
     @SuppressWarnings("cast")
-    private void updateNext() {
+    protected Segment prefetch() {
         if (scanner.hasNext()) {
             final List<Token> tokenList = new ArrayList<>();
             while (true) {
@@ -41,35 +39,25 @@ public final class EdifactLexer implements Iterator<Segment> {
                      * TODO a lot of parsing happened in the old "new Segment()", move that to here from
                      * dk.ange.stowbase.edifact
                      */
-                    next = new Segment(null, null);// tokenList);
-                    break;
+                    return new Segment(null, null);// tokenList);
                 } else {
                     tokenList.add(token);
                 }
             }
         } else {
-            next = null;
+            return null;
         }
     }
 
     @Override
-    public boolean hasNext() {
-        return next != null;
+    public void close() {
+        scanner.close();
     }
 
     @Override
-    public Segment next() {
-        if (!hasNext()) {
-            throw new NoSuchElementException();
-        }
-        final Segment oldNext = next;
-        updateNext();
-        return oldNext;
-    }
+    public void report(final String message) {
+        // TODO Auto-generated method stub
 
-    @Override
-    public void remove() {
-        throw new UnsupportedOperationException(EdifactLexer.class.getSimpleName() + " can not remove()");
     }
 
 }

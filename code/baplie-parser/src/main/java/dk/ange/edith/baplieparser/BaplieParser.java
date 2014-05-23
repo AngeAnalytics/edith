@@ -1,18 +1,23 @@
 package dk.ange.edith.baplieparser;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 
-import dk.ange.edith.baplie.BaplieReader;
 import dk.ange.edith.data.Group;
 import dk.ange.edith.data.Segment;
+import dk.ange.edith.lexer.EdifactLexer;
 import dk.ange.edith.stream.EdifactEventReader;
 
+/**
+ * Command line tool for testing the BAPLIE parser
+ */
 public class BaplieParser {
 
-    public static void main(final String[] args) throws FileNotFoundException, IOException {
+    /**
+     * @param args
+     * @throws Exception
+     */
+    public static void main(final String[] args) throws Exception {
         if (args.length != 1) {
             System.err.println("Wrong number of arguments!");
             System.err.println("Usage: BaplieParser file");
@@ -27,7 +32,7 @@ public class BaplieParser {
     }
 
     private static void readStream(final InputStream stream) {
-        try (EdifactEventReader reader = TODO()) {
+        try (EdifactEventReader reader = new EdifactLexer(stream)) {
             final Segment una = reader.next();
             if (!una.getTag().equals("UNA")) {
                 throw new RuntimeException("Wrong input in file: " + una);
@@ -56,13 +61,6 @@ public class BaplieParser {
                 throw new RuntimeException("Expected end of file, found: " + reader.peek());
             }
         }
-
-        // TODO Auto-generated method stub
-
-    }
-
-    private static <T> T TODO() {
-        throw new UnsupportedOperationException("TODO");
     }
 
 }
