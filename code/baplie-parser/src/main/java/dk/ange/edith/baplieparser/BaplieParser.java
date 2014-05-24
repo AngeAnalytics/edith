@@ -1,5 +1,6 @@
 package dk.ange.edith.baplieparser;
 
+import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
@@ -18,15 +19,11 @@ public class BaplieParser {
      * @throws Exception
      */
     public static void main(final String[] args) throws Exception {
-        if (args.length != 1) {
-            System.err.println("Wrong number of arguments!");
-            System.err.println("Usage: BaplieParser file");
-            System.exit(1);
-        }
-        final String fileName = args[0];
-        System.out.println("Open file: " + fileName);
-        try (InputStream stream = new FileInputStream(fileName)) {
-            readStream(stream);
+        for (final String fileName : args) {
+            System.out.print("Parse '" + fileName + "', ");
+            try (InputStream stream = new BufferedInputStream(new FileInputStream(fileName))) {
+                readStream(stream);
+            }
         }
         System.out.println("Done.");
     }
@@ -45,9 +42,9 @@ public class BaplieParser {
             final BaplieReader baplieReader = new BaplieReader();
             // TODO check that it is a BAPLIE message
             final Group baplie = baplieReader.read(reader);
-            System.out.print(baplie.toDebugString());
-            System.out.println(baplie);
-            System.out.println("Read BAPLIE with " + baplie.getGroupList(2).size() + " containers");
+            // System.out.print(baplie.toDebugString());
+            // System.out.println(baplie);
+            System.out.println("parsed " + baplie.getGroupList(2).size() + " containers");
 
             final Segment unz = reader.next();
             if (!unz.getTag().equals("UNZ")) {
