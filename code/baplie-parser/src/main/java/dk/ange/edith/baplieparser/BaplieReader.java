@@ -57,7 +57,7 @@ public class BaplieReader {
             eventReader.report("Bad UNH segment");
             return group0Builder.build();
         }
-        eventReader.next();
+        eventReader.next(); // pop UNH that was peeked
         group0Builder.add(unh);
 
         // Rest of message

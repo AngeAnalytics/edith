@@ -16,6 +16,8 @@ public final class EdifactLexer extends PrefetchIterator<Segment> implements Ite
 
     private final EdifactScanner scanner;
 
+    private boolean firstSegment = true;
+
     /**
      * @param stream
      */
@@ -25,6 +27,11 @@ public final class EdifactLexer extends PrefetchIterator<Segment> implements Ite
 
     @Override
     protected Segment prefetch() {
+        // Special handling of UNA header
+        if (firstSegment) {
+            firstSegment = false;
+            consumePossibleUnaSegment();
+        }
         // Check for EOF
         if (!scanner.hasNext()) {
             return null;
@@ -62,6 +69,25 @@ public final class EdifactLexer extends PrefetchIterator<Segment> implements Ite
             case SEGEMENT_TERMINATOR:
                 return builder.build();
             }
+        }
+    }
+
+    private void consumePossibleUnaSegment() {
+        final Token una = scanner.peek();
+        if (una.type() == TokenType.VALUE && una.value().equals("UNA")) {
+            scanner.next(); // pop UNA that was peeked
+            checkNextEquals(Token.COMPONENT_DATA_ELEMENT_SEPARATOR);
+            checkNextEquals(Token.DATA_ELEMENT_SEPARATOR);
+            checkNextEquals(new Token(". ")); // Decimal notation, Release indicator, Reserved for future use
+            checkNextEquals(Token.SEGEMENT_TERMINATOR);
+        }
+    }
+
+    private void checkNextEquals(final Token expected) {
+        final Token next = scanner.next();
+        if (!expected.equals(next)) {
+            throw new RuntimeException("Did not read the expected element to UNA segment, expected " + expected
+                    + ", got " + next);
         }
     }
 

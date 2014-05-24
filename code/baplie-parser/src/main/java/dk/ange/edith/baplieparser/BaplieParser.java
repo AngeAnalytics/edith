@@ -33,11 +33,6 @@ public class BaplieParser {
 
     private static void readStream(final InputStream stream) {
         try (EdifactEventReader reader = new EdifactLexer(stream)) {
-            final Segment perhapsUna = reader.peek();
-            if (perhapsUna.getTag().equals("UNA")) {
-                reader.next();
-            }
-
             final Segment unb = reader.next();
             if (!unb.getTag().equals("UNB")) {
                 throw new RuntimeException("Wrong input in file: " + unb);
