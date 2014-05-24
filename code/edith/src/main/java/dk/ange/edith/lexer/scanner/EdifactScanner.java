@@ -15,9 +15,9 @@ public final class EdifactScanner extends PrefetchIterator<Token> implements Ite
 
     private final PushbackInputStream pushbackInputStream;
 
-    private static final char COMPONENT_DATA_ELEMENT_SEPARATOR = '+';
+    private static final char COMPONENT_DATA_ELEMENT_SEPARATOR = ':';
 
-    private static final char DATA_ELEMENT_SEPARATOR = ':';
+    private static final char DATA_ELEMENT_SEPARATOR = '+';
 
     private static final char RELEASE_CHARACTER = '?';
 

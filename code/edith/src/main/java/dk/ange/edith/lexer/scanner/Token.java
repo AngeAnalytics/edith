@@ -6,13 +6,13 @@ package dk.ange.edith.lexer.scanner;
 public class Token {
 
     /**
-     * The static Token for the primary separator in a segment, normally a + (plus)
+     * The static Token for the primary separator in a segment, normally a : (colon)
      */
     public static final Token COMPONENT_DATA_ELEMENT_SEPARATOR //
     = new Token(TokenType.COMPONENT_DATA_ELEMENT_SEPARATOR);
 
     /**
-     * The static Token for the secondary separator in a segment, normally a : (colon)
+     * The static Token for the secondary separator in a segment, normally a + (plus)
      */
     public static final Token DATA_ELEMENT_SEPARATOR = new Token(TokenType.DATA_ELEMENT_SEPARATOR);
 
@@ -74,11 +74,11 @@ public class Token {
          */
         VALUE,
         /**
-         * The type of the Token for the primary separator in a segment, normally a + (plus)
+         * The type of the Token for the primary separator in a segment, normally a : (colon)
          */
         COMPONENT_DATA_ELEMENT_SEPARATOR,
         /**
-         * The type of the Token for the secondary separator in a segment, normally a : (colon)
+         * The type of the Token for the secondary separator in a segment, normally a + (plus)
          */
         DATA_ELEMENT_SEPARATOR,
         /**
