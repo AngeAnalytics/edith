@@ -8,7 +8,6 @@ import com.google.common.collect.ImmutableTable.Builder;
 import com.google.common.collect.Table;
 
 import dk.ange.edith.data.Group;
-import dk.ange.edith.data.GroupBuilder;
 import dk.ange.edith.data.Segment;
 import dk.ange.edith.stream.EdifactEventReader;
 
@@ -50,26 +49,26 @@ public class BaplieReader {
      * @return the entire BAPLIE as a Group
      */
     public Group read(final EdifactEventReader eventReader) {
-        final GroupBuilder group0builder = new GroupBuilder();
+        final Group.Builder group0Builder = new Group.Builder();
 
         // UNH
         final Segment unh = eventReader.peek();
         if (!acceptsUnh(unh)) {
             eventReader.report("Bad UNH segment");
-            return group0builder.build();
+            return group0Builder.build();
         }
         eventReader.next();
-        group0builder.add(unh);
+        group0Builder.add(unh);
 
         // Rest of message
-        final Deque<GroupBuilder> stack = new ArrayDeque<>();
-        stack.push(group0builder);
+        final Deque<Group.Builder> stack = new ArrayDeque<>();
+        stack.push(group0Builder);
         int state = 0;
         while (eventReader.hasNext()) {
             final Segment segment = eventReader.next();
             final String tag = segment.getTag();
             if (tag.equals("UNT")) {
-                group0builder.add(segment);
+                group0Builder.add(segment);
                 break;
             }
             if (STATE_TRANSITIONS.contains(tag, state)) {
@@ -78,9 +77,9 @@ public class BaplieReader {
                     stack.pop();
                 }
                 if (transition.createNewGroup()) {
-                    final GroupBuilder newGroupbuilder = new GroupBuilder();
-                    stack.getFirst().add(transition.groupNumber(), newGroupbuilder);
-                    stack.push(newGroupbuilder);
+                    final Group.Builder newGroupBuilder = new Group.Builder();
+                    stack.getFirst().add(transition.groupNumber(), newGroupBuilder);
+                    stack.push(newGroupBuilder);
                 }
                 state = transition.state;
                 stack.getFirst().add(segment, transition.occurrence);
@@ -90,18 +89,19 @@ public class BaplieReader {
         }
 
         assert !stack.isEmpty();
-        assert stack.getLast() == group0builder;
-        return group0builder.build();
+        assert stack.getLast() == group0Builder;
+        return group0Builder.build();
     }
 
+    // Make method public?
     private boolean acceptsUnh(final Segment unh) {
-        // TODO Expand to check identifier
+        // Expand to check identifier
+        // Add and use identifiersAccepted() method?
         return unh.getTag().equals("UNH");
     }
 
-    // TODO add acceptsUnh(segment) or identifiersAccepted() method
-
     private static class Transition {
+
         final int state;
 
         final int pop;

@@ -50,6 +50,8 @@ public class BaplieParser {
             final BaplieReader baplieReader = new BaplieReader();
             // TODO check that it is a BAPLIE message
             final Group baplie = baplieReader.read(reader);
+            System.out.print(baplie.toDebugString());
+            System.out.println(baplie);
             System.out.println("Read BAPLIE with " + baplie.getGroupList(2).size() + " containers");
 
             final Segment unz = reader.next();
