@@ -33,6 +33,7 @@ public final class EdifactLexer extends PrefetchIterator<Segment> implements Ite
             final List<Token> tokenList = new ArrayList<>();
             while (true) {
                 final Token token = scanner.next();
+                System.out.println(token);
                 // TODO fix code:
                 if (token instanceof Token) { // SegmentTerminator) {
                     /*
