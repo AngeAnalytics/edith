@@ -1,44 +1,46 @@
 package dk.ange.edith.data;
 
+/*
+ * This class could perhaps be extended to also contain a type given by the document structure, but it is not
+ * obvious that we would gain anything from such an extension.
+ */
 /**
- * A simple data element. Will either be non-present or contain a data value that is a non-empty String.
+ * The value of a component data element or of a simple data element. Will either be non-present or contain a data value
+ * that is a non-empty String.
  * <p>
  * Immutable.
- * <p>
- * This class could perhaps be extended to also contain a type given by the document structure, but it is not obvious
- * that we would gain anything from such an extension.
  */
-public final class DataElement {
+public final class Value {
 
     /**
      * The non-present data element. Contains null.
      */
-    public static final DataElement NON_PRESENT = new DataElement(null);
+    public static final Value NON_PRESENT = new Value(null);
 
     // Will never be the empty string
     private final String data;
 
     /**
      * @param data
-     *            data to wrap in element, null if the element is not present. If the empty string is given it will be
-     *            translated to null.
-     * @return A data element representing the given data
+     *            data to wrap in value, use null if the data element is non-present. If the empty string is given it
+     *            will be translated to null.
+     * @return value representing the given data
      */
-    public static DataElement valueOf(final String data) {
+    public static Value valueOf(final String data) {
         if (data == null || data.isEmpty()) {
             return NON_PRESENT;
         } else {
-            return new DataElement(data);
+            return new Value(data);
         }
     }
 
-    private DataElement(final String data) {
+    private Value(final String data) {
         assert data == null || !data.isEmpty();
         this.data = data;
     }
 
     /**
-     * @return true if the element contains no data
+     * @return true if the data element is non-present
      */
     public boolean isPresent() {
         return data == null;
@@ -46,14 +48,14 @@ public final class DataElement {
 
     private void throwIfNonPresent() {
         if (!isPresent()) {
-            throw new IllegalStateException("DataElement is not present");
+            throw new IllegalStateException("Value of non-present data element");
         }
     }
 
     /**
-     * @return the data in the element as a string
+     * @return the data of the value as a string
      * @throws IllegalStateException
-     *             if the element is non-present
+     *             if the data element is non-present
      */
     public String asString() {
         throwIfNonPresent();
@@ -62,19 +64,19 @@ public final class DataElement {
 
     /**
      * @param default_
-     *            value to return if the element is not present
-     * @return the data in the element as a string or the default value
+     *            value to return if the data element is non-present
+     * @return the data of the value as a string or the default value
      */
     public String asString(final String default_) {
         return isPresent() ? data : default_;
     }
 
     /**
-     * @return the data in the element as a double
+     * @return the data of the value as a double
      * @throws IllegalStateException
-     *             if the element is non-present
+     *             if the data element is non-present
      * @throws NumberFormatException
-     *             if the element does not contain a parsable double
+     *             if the data element does not contain a parsable double
      */
     public double asDouble() {
         throwIfNonPresent();
@@ -83,10 +85,10 @@ public final class DataElement {
 
     /**
      * @param default_
-     *            value to return if the element is not present
-     * @return the data in the element as a double or the default value
+     *            value to return if the data element is non-present
+     * @return the data of the value as a double or the default value
      * @throws NumberFormatException
-     *             if the element does not contain a parsable double
+     *             if the data element does not contain a parsable double
      */
     public double asDouble(final double default_) {
         return isPresent() ? Double.parseDouble(data) : default_;
@@ -113,7 +115,7 @@ public final class DataElement {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final DataElement other = (DataElement) obj;
+        final Value other = (Value) obj;
         if (data == null) {
             if (other.data != null) {
                 return false;
@@ -126,7 +128,7 @@ public final class DataElement {
 
     @Override
     public String toString() {
-        return "DataElement(" + data + ")";
+        return "\"" + data + "\"";
     }
 
 }

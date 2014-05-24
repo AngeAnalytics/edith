@@ -1,25 +1,29 @@
 package dk.ange.edith.data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A segment, i.e. a tag and some {@link DataElement}s.
+ * A segment, i.e. a tag and some {@link Value}s.
  * <p>
  * Immutable.
  */
 public final class Segment {
 
-    private final String tag; // TODO create Tag class ?
+    private final String tag; // Create Tag class ?
 
-    private final List<List<DataElement>> data;
+    private final List<List<Value>> composites;
 
-    /**
-     * @param tag
-     * @param data
-     */
-    public Segment(final String tag, final List<List<DataElement>> data) {
-        this.tag = tag;
-        this.data = data; // TODO copy lists and check for nulls, make sure equals work
+    private Segment(final Builder builder) {
+        this.tag = builder.tag;
+        composites = new ArrayList<>(builder.composites.size());
+        for (final List<String> components : builder.composites) {
+            final List<Value> newComponents = new ArrayList<>(builder.composites.size());
+            for (final String component : components) {
+                newComponents.add(Value.valueOf(component));
+            }
+            composites.add(newComponents);
+        }
     }
 
     /**
@@ -30,22 +34,22 @@ public final class Segment {
     }
 
     /**
-     * @param position
-     *            1 based position
      * @param compositePosition
+     *            1 based position
+     * @param componentPosition
      *            1 based sub position
      * @return the data element, if there is no data present the non-present data element will be returned
      */
-    public DataElement getData(final int position, final int compositePosition) {
+    public Value getData(final int compositePosition, final int componentPosition) {
         // FIXME check for IndexOutOfBoundsException and return empty element
-        return data.get(position - 1).get(compositePosition - 1);
+        return composites.get(compositePosition - 1).get(componentPosition - 1);
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((data == null) ? 0 : data.hashCode());
+        result = prime * result + ((composites == null) ? 0 : composites.hashCode());
         result = prime * result + ((tag == null) ? 0 : tag.hashCode());
         return result;
     }
@@ -62,11 +66,11 @@ public final class Segment {
             return false;
         }
         final Segment other = (Segment) obj;
-        if (data == null) {
-            if (other.data != null) {
+        if (composites == null) {
+            if (other.composites != null) {
                 return false;
             }
-        } else if (!data.equals(other.data)) {
+        } else if (!composites.equals(other.composites)) {
             return false;
         }
         if (tag == null) {
@@ -81,7 +85,55 @@ public final class Segment {
 
     @Override
     public String toString() {
-        return "Segment('" + tag + "', " + data + ")";
+        return "Segment(\"" + tag + "\", " + composites + ")";
+    }
+
+    /**
+     * Builder for Segment
+     */
+    public static class Builder {
+
+        private final String tag;
+
+        private final List<List<String>> composites;
+
+        /**
+         * @param tag
+         */
+        public Builder(final String tag) {
+            this.tag = tag;
+            composites = new ArrayList<>();
+            composites.add(new ArrayList<String>());
+        }
+
+        /**
+         * Add a value to the current open data element
+         *
+         * @param value
+         * @return this for chaining
+         */
+        public Builder addValue(final String value) {
+            composites.get(composites.size() - 1).add(value);
+            return this;
+        }
+
+        /**
+         * Skip to the next data element
+         *
+         * @return this for chaining
+         */
+        public Builder nextDataElement() {
+            composites.add(new ArrayList<String>());
+            return this;
+        }
+
+        /**
+         * @return a new Segment
+         */
+        public Segment build() {
+            return new Segment(this);
+        }
+
     }
 
 }
