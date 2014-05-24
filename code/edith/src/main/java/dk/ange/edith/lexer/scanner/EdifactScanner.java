@@ -21,8 +21,6 @@ public final class EdifactScanner extends PrefetchIterator<Token> implements Ite
 
     private static final char RELEASE_CHARACTER = '?';
 
-    private static final char REPETITION_SEPARATOR = '*';
-
     private static final char SEGEMENT_TERMINATOR = '\'';
 
     /**
@@ -43,8 +41,6 @@ public final class EdifactScanner extends PrefetchIterator<Token> implements Ite
                 return Token.COMPONENT_DATA_ELEMENT_SEPARATOR;
             case DATA_ELEMENT_SEPARATOR:
                 return Token.DATA_ELEMENT_SEPARATOR;
-            case REPETITION_SEPARATOR:
-                throw new UnsupportedOperationException("Repetition in data elements not supported");
             case SEGEMENT_TERMINATOR:
                 return Token.SEGEMENT_TERMINATOR;
             default:
@@ -102,7 +98,6 @@ public final class EdifactScanner extends PrefetchIterator<Token> implements Ite
         case COMPONENT_DATA_ELEMENT_SEPARATOR:
         case DATA_ELEMENT_SEPARATOR:
         case RELEASE_CHARACTER:
-        case REPETITION_SEPARATOR:
         case SEGEMENT_TERMINATOR:
             return true;
         default:
