@@ -4,9 +4,9 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
-import dk.ange.edith.data.Group;
-import dk.ange.edith.data.Segment;
-import dk.ange.edith.lexer.EdifactLexer;
+import dk.ange.edith.dom.Group;
+import dk.ange.edith.segments.EdifactSegmentReader;
+import dk.ange.edith.segments.Segment;
 
 /**
  * Command line tool for testing the BAPLIE parser
@@ -28,7 +28,7 @@ public class BaplieParser {
     }
 
     private static void readStream(final InputStream stream) {
-        final EdifactLexer reader = new EdifactLexer(stream);
+        final EdifactSegmentReader reader = new EdifactSegmentReader(stream);
         final Segment unb = reader.next();
         if (!unb.getTag().equals("UNB")) {
             throw new RuntimeException("Wrong input in file: " + unb);

@@ -7,9 +7,9 @@ import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.ImmutableTable.Builder;
 import com.google.common.collect.Table;
 
-import dk.ange.edith.data.Group;
-import dk.ange.edith.data.Segment;
-import dk.ange.edith.lexer.EdifactLexer;
+import dk.ange.edith.dom.Group;
+import dk.ange.edith.segments.EdifactSegmentReader;
+import dk.ange.edith.segments.Segment;
 
 /**
  * Example of a BAPLIE reader
@@ -48,7 +48,7 @@ public class BaplieReader {
      * @param eventReader
      * @return the entire BAPLIE as a Group
      */
-    public Group read(final EdifactLexer eventReader) {
+    public Group read(final EdifactSegmentReader eventReader) {
         final Group.Builder group0Builder = new Group.Builder();
 
         // UNH

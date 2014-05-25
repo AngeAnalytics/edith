@@ -1,27 +1,27 @@
-package dk.ange.edith.lexer;
+package dk.ange.edith.segments;
 
 import java.io.InputStream;
 import java.util.Iterator;
 
-import dk.ange.edith.data.Segment;
-import dk.ange.edith.lexer.scanner.EdifactScanner;
-import dk.ange.edith.lexer.scanner.Token;
-import dk.ange.edith.lexer.scanner.Token.TokenType;
+import dk.ange.edith.scanner.EdifactTokenReader;
+import dk.ange.edith.scanner.Token;
+import dk.ange.edith.scanner.Token.TokenType;
+import dk.ange.edith.util.PrefetchIterator;
 
 /**
  * Collects the scanned tokens into Segments
  */
-public final class EdifactLexer extends PrefetchIterator<Segment> implements Iterator<Segment> {
+public final class EdifactSegmentReader extends PrefetchIterator<Segment> implements Iterator<Segment> {
 
-    private final EdifactScanner scanner;
+    private final EdifactTokenReader scanner;
 
     private boolean firstSegment = true;
 
     /**
      * @param stream
      */
-    public EdifactLexer(final InputStream stream) {
-        this.scanner = new EdifactScanner(stream);
+    public EdifactSegmentReader(final InputStream stream) {
+        this.scanner = new EdifactTokenReader(stream);
     }
 
     @Override

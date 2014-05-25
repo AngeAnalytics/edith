@@ -1,4 +1,4 @@
-package dk.ange.edith.data;
+package dk.ange.edith.dom;
 
 import java.util.Collections;
 import java.util.List;
@@ -7,6 +7,8 @@ import java.util.Map.Entry;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimaps;
+
+import dk.ange.edith.segments.Segment;
 
 /**
  * The DOM like representation of an EDIFACT message. Used both for the entire message and for the groups inside it.

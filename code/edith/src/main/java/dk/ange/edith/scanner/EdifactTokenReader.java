@@ -1,4 +1,4 @@
-package dk.ange.edith.lexer.scanner;
+package dk.ange.edith.scanner;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -6,12 +6,12 @@ import java.io.InputStream;
 import java.io.PushbackInputStream;
 import java.util.Iterator;
 
-import dk.ange.edith.lexer.PrefetchIterator;
+import dk.ange.edith.util.PrefetchIterator;
 
 /**
  * Scans the EDIFACT file and returns a stream of simple tokens
  */
-public final class EdifactScanner extends PrefetchIterator<Token> implements Iterator<Token> {
+public final class EdifactTokenReader extends PrefetchIterator<Token> implements Iterator<Token> {
 
     private final PushbackInputStream pushbackInputStream;
 
@@ -26,7 +26,7 @@ public final class EdifactScanner extends PrefetchIterator<Token> implements Ite
     /**
      * @param inputStream
      */
-    public EdifactScanner(final InputStream inputStream) {
+    public EdifactTokenReader(final InputStream inputStream) {
         this.pushbackInputStream = new PushbackInputStream(inputStream, 1);
     }
 

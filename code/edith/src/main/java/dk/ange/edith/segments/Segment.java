@@ -1,4 +1,4 @@
-package dk.ange.edith.data;
+package dk.ange.edith.segments;
 
 import java.util.ArrayList;
 import java.util.List;

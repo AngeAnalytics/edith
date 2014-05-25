@@ -1,4 +1,4 @@
-package dk.ange.edith.data;
+package dk.ange.edith.dom;
 
 /**
  * Tag is the three letter EDIFACT tag used to identify each segment type, occurrence is used when the same tag is used

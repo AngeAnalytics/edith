@@ -1,4 +1,4 @@
-package dk.ange.edith.data;
+package dk.ange.edith.segments;
 
 /*
  * This class could perhaps be extended to also contain a type given by the document structure, but it is not
