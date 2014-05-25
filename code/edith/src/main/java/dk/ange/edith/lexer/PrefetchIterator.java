@@ -4,8 +4,8 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * Iterator implemented by prefetcing the next element
- * 
+ * Iterator implemented by prefetching the next element
+ *
  * @param <T>
  */
 public abstract class PrefetchIterator<T> implements Iterator<T> {
