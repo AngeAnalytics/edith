@@ -9,7 +9,7 @@ import com.google.common.collect.Table;
 
 import dk.ange.edith.data.Group;
 import dk.ange.edith.data.Segment;
-import dk.ange.edith.stream.EdifactEventReader;
+import dk.ange.edith.lexer.EdifactLexer;
 
 /**
  * Example of a BAPLIE reader
@@ -48,13 +48,13 @@ public class BaplieReader {
      * @param eventReader
      * @return the entire BAPLIE as a Group
      */
-    public Group read(final EdifactEventReader eventReader) {
+    public Group read(final EdifactLexer eventReader) {
         final Group.Builder group0Builder = new Group.Builder();
 
         // UNH
         final Segment unh = eventReader.peek();
         if (!acceptsUnh(unh)) {
-            eventReader.report("Bad UNH segment");
+            // eventReader.report("Bad UNH segment");
             return group0Builder.build();
         }
         eventReader.next(); // pop UNH that was peeked

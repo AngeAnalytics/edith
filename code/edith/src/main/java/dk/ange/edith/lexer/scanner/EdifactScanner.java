@@ -11,7 +11,7 @@ import dk.ange.edith.lexer.PrefetchIterator;
 /**
  * Scans the EDIFACT file and returns a stream of simple tokens
  */
-public final class EdifactScanner extends PrefetchIterator<Token> implements Iterator<Token>, AutoCloseable {
+public final class EdifactScanner extends PrefetchIterator<Token> implements Iterator<Token> {
 
     private final PushbackInputStream pushbackInputStream;
 
@@ -102,15 +102,6 @@ public final class EdifactScanner extends PrefetchIterator<Token> implements Ite
             return true;
         default:
             return false;
-        }
-    }
-
-    @Override
-    public void close() {
-        try {
-            pushbackInputStream.close();
-        } catch (final IOException e) {
-            throw new RuntimeException(e);
         }
     }
 

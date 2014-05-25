@@ -7,7 +7,6 @@ import java.io.InputStream;
 import dk.ange.edith.data.Group;
 import dk.ange.edith.data.Segment;
 import dk.ange.edith.lexer.EdifactLexer;
-import dk.ange.edith.stream.EdifactEventReader;
 
 /**
  * Command line tool for testing the BAPLIE parser
@@ -29,31 +28,30 @@ public class BaplieParser {
     }
 
     private static void readStream(final InputStream stream) {
-        try (EdifactEventReader reader = new EdifactLexer(stream)) {
-            final Segment unb = reader.next();
-            if (!unb.getTag().equals("UNB")) {
-                throw new RuntimeException("Wrong input in file: " + unb);
-            }
+        final EdifactLexer reader = new EdifactLexer(stream);
+        final Segment unb = reader.next();
+        if (!unb.getTag().equals("UNB")) {
+            throw new RuntimeException("Wrong input in file: " + unb);
+        }
 
-            final Segment unh = reader.peek();
-            if (!unh.getTag().equals("UNH")) {
-                throw new RuntimeException("Wrong input in file: " + unh);
-            }
-            final BaplieReader baplieReader = new BaplieReader();
-            // TODO check that it is a BAPLIE message
-            final Group baplie = baplieReader.read(reader);
-            // System.out.print(baplie.toDebugString());
-            // System.out.println(baplie);
-            System.out.println("parsed " + baplie.getGroupList(2).size() + " containers");
+        final Segment unh = reader.peek();
+        if (!unh.getTag().equals("UNH")) {
+            throw new RuntimeException("Wrong input in file: " + unh);
+        }
+        final BaplieReader baplieReader = new BaplieReader();
+        // TODO check that it is a BAPLIE message
+        final Group baplie = baplieReader.read(reader);
+        // System.out.print(baplie.toDebugString());
+        // System.out.println(baplie);
+        System.out.println("parsed " + baplie.getGroupList(2).size() + " containers");
 
-            final Segment unz = reader.next();
-            if (!unz.getTag().equals("UNZ")) {
-                throw new RuntimeException("Wrong input in file: " + unz);
-            }
+        final Segment unz = reader.next();
+        if (!unz.getTag().equals("UNZ")) {
+            throw new RuntimeException("Wrong input in file: " + unz);
+        }
 
-            if (reader.hasNext()) {
-                throw new RuntimeException("Expected end of file, found: " + reader.peek());
-            }
+        if (reader.hasNext()) {
+            throw new RuntimeException("Expected end of file, found: " + reader.peek());
         }
     }
 

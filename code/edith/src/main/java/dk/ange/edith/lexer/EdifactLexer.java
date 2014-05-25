@@ -7,12 +7,11 @@ import dk.ange.edith.data.Segment;
 import dk.ange.edith.lexer.scanner.EdifactScanner;
 import dk.ange.edith.lexer.scanner.Token;
 import dk.ange.edith.lexer.scanner.Token.TokenType;
-import dk.ange.edith.stream.EdifactEventReader;
 
 /**
  * Collects the scanned tokens into Segments
  */
-public final class EdifactLexer extends PrefetchIterator<Segment> implements Iterator<Segment>, EdifactEventReader {
+public final class EdifactLexer extends PrefetchIterator<Segment> implements Iterator<Segment> {
 
     private final EdifactScanner scanner;
 
@@ -89,16 +88,6 @@ public final class EdifactLexer extends PrefetchIterator<Segment> implements Ite
             throw new RuntimeException("Did not read the expected element to UNA segment, expected " + expected
                     + ", got " + next);
         }
-    }
-
-    @Override
-    public void close() {
-        scanner.close();
-    }
-
-    @Override
-    public void report(final String message) {
-        // TODO Auto-generated method stub
     }
 
 }
