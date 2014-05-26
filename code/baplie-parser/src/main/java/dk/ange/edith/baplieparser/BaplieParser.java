@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 import dk.ange.edith.dom.Group;
+import dk.ange.edith.message.Baplie95BGrouper;
 import dk.ange.edith.segments.EdifactSegmentReader;
 import dk.ange.edith.segments.Segment;
 
@@ -18,6 +19,7 @@ public class BaplieParser {
      * @throws Exception
      */
     public static void main(final String[] args) throws Exception {
+        System.out.println("Begin");
         for (final String fileName : args) {
             System.out.print("Parse '" + fileName + "', ");
             try (InputStream stream = new BufferedInputStream(new FileInputStream(fileName))) {
@@ -38,9 +40,9 @@ public class BaplieParser {
         if (!unh.getTag().equals("UNH")) {
             throw new RuntimeException("Wrong input in file: " + unh);
         }
-        final BaplieReader baplieReader = new BaplieReader();
+        final Baplie95BGrouper baplieGrouper = new Baplie95BGrouper();
         // TODO check that it is a BAPLIE message
-        final Group baplie = baplieReader.read(reader);
+        final Group baplie = baplieGrouper.group(reader);
         // System.out.print(baplie.toDebugString());
         // System.out.println(baplie);
         System.out.println("parsed " + baplie.getGroupList(2).size() + " containers");

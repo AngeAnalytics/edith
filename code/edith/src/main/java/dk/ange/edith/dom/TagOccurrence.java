@@ -4,7 +4,8 @@ package dk.ange.edith.dom;
  * Tag is the three letter EDIFACT tag used to identify each segment type, occurrence is used when the same tag is used
  * multiple times in a group, the first use is occurrence 1 the second 2 etc.
  */
-public class TagOccurrence {
+// Used in Group and SegmentGrouper
+class TagOccurrence {
 
     private final String tag;
 
