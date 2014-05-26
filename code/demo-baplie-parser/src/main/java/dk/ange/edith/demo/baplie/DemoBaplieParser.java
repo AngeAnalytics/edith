@@ -1,4 +1,4 @@
-package dk.ange.edith.baplieparser;
+package dk.ange.edith.demo.baplie;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
@@ -12,7 +12,7 @@ import dk.ange.edith.segments.Segment;
 /**
  * Command line tool for testing the BAPLIE parser
  */
-public class BaplieParser {
+public class DemoBaplieParser {
 
     /**
      * @param args

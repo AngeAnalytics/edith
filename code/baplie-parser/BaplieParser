@@ -1,3 +1,0 @@
-#!/bin/bash
-dir=$(dirname $0)
-exec java -XX:-OmitStackTraceInFastThrow -jar "$dir/target/baplie-parser-0-SNAPSHOT-jar-with-dependencies.jar" "$@"

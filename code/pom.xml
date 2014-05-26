@@ -14,7 +14,7 @@
 
   <modules>
     <module>edith</module>
-    <module>baplie-parser</module>
+    <module>demo-baplie-parser</module>
     <module>old</module>
   </modules>
 
