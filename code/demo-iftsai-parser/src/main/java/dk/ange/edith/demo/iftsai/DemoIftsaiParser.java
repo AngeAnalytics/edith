@@ -39,6 +39,18 @@ public class DemoIftsaiParser {
         int messages = 0;
         int calls = 0;
         while (reader.peek().getTag().equals("UNH")) {
+
+            final Segment unh = reader.peek();
+            if (!unh.getTag().equals("UNH") //
+                    || !unh.getData(2, 1).asString("").equals("IFTSAI") //
+                    || !unh.getData(2, 2).asString("").equals("D") //
+                    || !unh.getData(2, 3).asString("").equals("99B") //
+                    || !unh.getData(2, 4).asString("").equals("UN") ) {
+                throw new RuntimeException("UNH segment UNH+...+IFTSAI:D:99B:UN' expected, got: " + unh + " ." //
+                        + " " + unh.getData(2, 1).asString("") + ":" + unh.getData(2, 2).asString("") //
+                        + ":" + unh.getData(2, 3).asString("") + ":" + unh.getData(2, 4).asString(""));
+            }
+
             final Iftsai99BGrouper iftsaiGrouper = new Iftsai99BGrouper();
             final Group iftsai = iftsaiGrouper.group(reader);
             // System.out.print(iftsai.toDebugString());

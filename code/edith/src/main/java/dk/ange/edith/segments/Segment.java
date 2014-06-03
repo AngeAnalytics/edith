@@ -41,8 +41,11 @@ public final class Segment {
      * @return the data element, if there is no data present the non-present data element will be returned
      */
     public Value getData(final int compositePosition, final int componentPosition) {
-        // FIXME check for IndexOutOfBoundsException and return empty element
+        try {
         return composites.get(compositePosition - 1).get(componentPosition - 1);
+        } catch (final IndexOutOfBoundsException e) {
+            return Value.valueOf(null);
+        }
     }
 
     @Override

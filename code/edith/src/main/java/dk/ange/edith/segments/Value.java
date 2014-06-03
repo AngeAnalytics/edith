@@ -40,10 +40,10 @@ public final class Value {
     }
 
     /**
-     * @return true if the data element is non-present
+     * @return true if the data element is present
      */
     public boolean isPresent() {
-        return data == null;
+        return data != null;
     }
 
     private void throwIfNonPresent() {
