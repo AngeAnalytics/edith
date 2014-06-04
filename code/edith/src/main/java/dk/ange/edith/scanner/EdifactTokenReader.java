@@ -15,13 +15,25 @@ public final class EdifactTokenReader extends PrefetchIterator<Token> implements
 
     private final PushbackInputStream pushbackInputStream;
 
-    private static final char COMPONENT_DATA_ELEMENT_SEPARATOR = ':';
+    /**
+     * COMPONENT_DATA_ELEMENT_SEPARATOR = ':'
+     */
+    public static final char COMPONENT_DATA_ELEMENT_SEPARATOR = ':';
 
-    private static final char DATA_ELEMENT_SEPARATOR = '+';
+    /**
+     * DATA_ELEMENT_SEPARATOR = '+'
+     */
+    public static final char DATA_ELEMENT_SEPARATOR = '+';
 
-    private static final char RELEASE_CHARACTER = '?';
+    /**
+     * RELEASE_CHARACTER = '?'
+     */
+    public static final char RELEASE_CHARACTER = '?';
 
-    private static final char SEGEMENT_TERMINATOR = '\'';
+    /**
+     * SEGEMENT_TERMINATOR = '\''
+     */
+    public static final char SEGEMENT_TERMINATOR = '\'';
 
     /**
      * @param inputStream

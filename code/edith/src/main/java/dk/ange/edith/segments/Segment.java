@@ -3,6 +3,8 @@ package dk.ange.edith.segments;
 import java.util.ArrayList;
 import java.util.List;
 
+import dk.ange.edith.scanner.EdifactTokenReader;
+
 /**
  * A segment, i.e. a tag and some {@link Value}s.
  * <p>
@@ -46,6 +48,39 @@ public final class Segment {
         } catch (final IndexOutOfBoundsException e) {
             return Value.valueOf(null);
         }
+    }
+
+    /**
+     * @return raw text of segment
+     */
+    public String print() {
+        StringBuilder s = new StringBuilder();
+        s.append(this.tag);
+        for (final List<Value> composite : this.composites) {
+            s.append(EdifactTokenReader.DATA_ELEMENT_SEPARATOR);
+            boolean firstComponent = true;
+            for (final Value value : composite) {
+                if (!value.isPresent()) {
+                    continue;
+                }
+                if (!firstComponent) {
+                    s.append(EdifactTokenReader.COMPONENT_DATA_ELEMENT_SEPARATOR);
+                }
+                // escape special EDI characters
+                for (char c : value.asString().toCharArray()) {
+                    if (c == EdifactTokenReader.COMPONENT_DATA_ELEMENT_SEPARATOR //
+                            || c == EdifactTokenReader.DATA_ELEMENT_SEPARATOR //
+                            || c == EdifactTokenReader.RELEASE_CHARACTER //
+                            || c == EdifactTokenReader.SEGEMENT_TERMINATOR) {
+                        s.append(EdifactTokenReader.RELEASE_CHARACTER);
+                    }
+                    s.append(c);
+                }
+                firstComponent = false;
+            }
+        }
+        s.append(EdifactTokenReader.SEGEMENT_TERMINATOR);
+        return s.toString();
     }
 
     @Override

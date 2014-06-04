@@ -40,15 +40,15 @@ public class DemoIftsaiParser {
         int calls = 0;
         while (reader.peek().getTag().equals("UNH")) {
 
+            // M 0010 UNH Message Header M 1
+            // UNH+287920+IFTSAI:D:99B:UN'
             final Segment unh = reader.peek();
             if (!unh.getTag().equals("UNH") //
                     || !unh.getData(2, 1).asString("").equals("IFTSAI") //
                     || !unh.getData(2, 2).asString("").equals("D") //
                     || !unh.getData(2, 3).asString("").equals("99B") //
                     || !unh.getData(2, 4).asString("").equals("UN") ) {
-                throw new RuntimeException("UNH segment UNH+...+IFTSAI:D:99B:UN' expected, got: " + unh + " ." //
-                        + " " + unh.getData(2, 1).asString("") + ":" + unh.getData(2, 2).asString("") //
-                        + ":" + unh.getData(2, 3).asString("") + ":" + unh.getData(2, 4).asString(""));
+                throw new RuntimeException("Expected segment UNH+...+IFTSAI:D:99B:UN', got: " + unh.print());
             }
 
             final Iftsai99BGrouper iftsaiGrouper = new Iftsai99BGrouper();
