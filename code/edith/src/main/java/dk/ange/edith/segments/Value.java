@@ -94,7 +94,30 @@ public final class Value {
         return isPresent() ? Double.parseDouble(data) : default_;
     }
 
-    // TODO add some more data converters like asInt and asTimestamp
+    /**
+     * @return the data of the value as an int
+     * @throws IllegalStateException
+     *             if the data element is non-present
+     * @throws NumberFormatException
+     *             if the data element does not contain a parsable int
+     */
+    public int asInt() {
+        throwIfNonPresent();
+        return Integer.parseInt(data);
+    }
+
+    /**
+     * @param default_
+     *            value to return if the data element is non-present
+     * @return the data of the value as an int or the default value
+     * @throws NumberFormatException
+     *             if the data element does not contain a parsable int
+     */
+    public int asInt(final int default_) {
+        return isPresent() ? Integer.parseInt(data) : default_;
+    }
+
+    // TODO add some more data converters like asTimestamp
 
     @Override
     public int hashCode() {
