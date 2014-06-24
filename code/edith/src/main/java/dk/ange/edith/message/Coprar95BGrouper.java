@@ -6,11 +6,13 @@ import com.google.common.collect.ImmutableTable.Builder;
 import dk.ange.edith.dom.Transition;
 
 /**
- * SMDG
- * User Manual ( Implementation Guide ) UN/EDIFACT MESSAGE
+ * Implements grouping of COPRAR based on D95B as defined in
+ * <pre>
+ * SMDG User Manual ( Implementation Guide )
  * COPRAR (Container discharge/loading order)
  * Version 1.2
- * D95B
+ * UN/EDIFACT D95B
+ * </pre>
  */
 public class Coprar95BGrouper extends AbstractMessageGrouper {
 
