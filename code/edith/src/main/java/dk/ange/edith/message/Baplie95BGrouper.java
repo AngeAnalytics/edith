@@ -10,7 +10,7 @@ import dk.ange.edith.dom.Transition;
  * <pre>
  * SMDG User Manual ( Implementation Guide )
  * BAPLIE Bayplan Message
- * Version 1.5 & 2.1.1
+ * Version 2.1.1
  * UN/EDIFACT D95B
  * </pre>
  */
@@ -19,11 +19,11 @@ public class Baplie95BGrouper extends AbstractMessageGrouper {
     @Override
     protected ImmutableTable<String, Integer, Transition> stateTransitions() {
         final Builder<String, Integer, Transition> builder = new ImmutableTable.Builder<>();
-        // 1.5 & 2.1.1 SG0 : UNH-BGM-DTM-(RFF)-(NAD)-SG1-SG2-UNT
-        // 1.5 & 2.1.1 SG1 : TDT-LOC-DTM(state-10)-RFF-FTX (M1)
-        // 1.5 & 2.1.1 SG2 : LOC-GID-GDS-FTX-MEA-DIM-TMP-RNG-LOC(state -20)-RFF(state -21)-SG3-SG4 (C9999)
-        // 1.5 & 2.1.1 SG3 : EQD-EQA-NAD (C9)
-        // 1.5 & 2.1.1 SG4 : DGS-FTX (C999)
+        // SG0 : UNH-BGM-DTM-(RFF)-(NAD)-SG1-SG2-UNT
+        // SG1 : TDT-LOC-DTM(state-10)-RFF-FTX (M1)
+        // SG2 : LOC-GID-GDS-FTX-MEA-DIM-TMP-RNG-LOC(state -20)-RFF(state -21)-SG3-SG4 (C9999)
+        // SG3 : EQD-EQA-NAD (C9)
+        // SG4 : DGS-FTX (C999)
         builder.put("TDT", 0, Transition.to(1));
         builder.put("TDT", -10, Transition.to(1).pop(1));
         builder.put("DTM", 1, Transition.to(-10));
