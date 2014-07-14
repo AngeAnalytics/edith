@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>dk.ange.edith</groupId>
   <artifactId>parent</artifactId>
   <version>0-SNAPSHOT</version>
   <packaging>pom</packaging>
-
   <name>Ange :: Edith :: Parent</name>
   <description>The core dependencies for the Edith EDI parsing tools</description>
+
+  <scm>
+    <connection>scm:git:ssh://git.ange.dk:/var/lib/git/stowage-server</connection>
+  </scm>
+
+  <distributionManagement>
+    <repository>
+      <id>ange-internal</id>
+      <url>https://archiva.ange.dk/archiva/repository/ange-internal/</url>
+    </repository>
+  </distributionManagement>
 
   <modules>
     <module>edith</module>
