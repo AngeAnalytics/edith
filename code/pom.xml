@@ -11,7 +11,7 @@
   <description>The core dependencies for the Edith EDI parsing tools</description>
 
   <scm>
-    <connection>scm:git:ssh://git.ange.dk:/var/lib/git/stowage-server</connection>
+    <connection>scm:git:ssh://git.ange.dk:/var/lib/git/edith</connection>
   </scm>
 
   <distributionManagement>
