@@ -77,7 +77,7 @@ public class SegmentGrouper {
     }
 
     // Make method public?
-    private boolean acceptsUnh(final Segment unh) {
+    private static boolean acceptsUnh(final Segment unh) {
         // Expand to check identifier
         // Add and use identifiersAccepted() method?
         return unh.getTag().equals("UNH");
