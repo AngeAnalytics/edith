@@ -11,7 +11,7 @@
   </parent>
 
   <artifactId>edith</artifactId>
-  <name>Ange :: Edith</name>
+  <packaging>bundle</packaging>
   <description>Edith EDI parsing tools</description>
 
   <dependencies>

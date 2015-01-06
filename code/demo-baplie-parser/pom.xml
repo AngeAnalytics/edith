@@ -11,7 +11,8 @@
   </parent>
 
   <artifactId>demo-baplie-parser</artifactId>
-  <name>Ange :: Edith :: BAPLIE parser demo</name>
+  <packaging>jar</packaging>
+  <description>BAPLIE parser demo</description>
 
   <dependencies>
 
@@ -25,6 +26,7 @@
 
   <build>
     <plugins>
+
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration>
@@ -35,6 +37,14 @@
           </archive>
         </configuration>
       </plugin>
+
+      <plugin>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+
     </plugins>
   </build>
 

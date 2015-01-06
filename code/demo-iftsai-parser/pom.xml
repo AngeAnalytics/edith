@@ -11,7 +11,8 @@
   </parent>
 
   <artifactId>demo-iftsai-parser</artifactId>
-  <name>Ange :: Edith :: IFTSAI parser demo</name>
+  <packaging>jar</packaging>
+  <description>IFTSAI parser demo</description>
 
   <dependencies>
 
@@ -25,6 +26,7 @@
 
   <build>
     <plugins>
+
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration>
@@ -35,6 +37,14 @@
           </archive>
         </configuration>
       </plugin>
+
+      <plugin>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+
     </plugins>
   </build>
 
