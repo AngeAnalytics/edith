@@ -4,22 +4,35 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>dk.ange.edith</groupId>
-  <version>0-SNAPSHOT</version>
-
   <artifactId>parent</artifactId>
+  <version>0-SNAPSHOT</version>
   <packaging>pom</packaging>
+
+  <name>${project.groupId}:${project.artifactId}</name>
   <description>The core dependencies for the Edith EDI parsing tools</description>
+  <url>http://github.com/AngeAnalytics/edith</url>
+
+  <licenses>
+    <license>
+      <name>The Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>Kim Hansen</name>
+      <email>kim@rthansen.dk</email>
+      <organization>Ange Analytics IVS</organization>
+      <organizationUrl>http://ange.dk</organizationUrl>
+    </developer>
+  </developers>
 
   <scm>
-    <connection>scm:git:ssh://git.ange.dk:/var/lib/git/edith</connection>
+    <connection>scm:git:git://github.com/AngeAnalytics/edith.git</connection>
+    <developerConnection>scm:git:ssh://github.com:AngeAnalytics/edith.git</developerConnection>
+    <url>http://github.com/AngeAnalytics/edith/tree/master</url>
   </scm>
-
-  <distributionManagement>
-    <repository>
-      <id>ange-internal</id>
-      <url>https://archiva.ange.dk/archiva/repository/ange-internal/</url>
-    </repository>
-  </distributionManagement>
 
   <modules>
     <module>edith</module>
@@ -49,20 +62,6 @@
     <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
 
   </properties>
-
-  <repositories>
-    <repository>
-      <id>ange-internal</id>
-      <name>Ange Internal</name>
-      <url>http://archiva.ange.dk/archiva/repository/ange-internal/</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
 
   <!-- Managed dependencies -->
   <dependencyManagement>
