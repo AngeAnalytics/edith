@@ -44,7 +44,7 @@ public final class Segment {
      */
     public Value getData(final int compositePosition, final int componentPosition) {
         try {
-        return composites.get(compositePosition - 1).get(componentPosition - 1);
+            return composites.get(compositePosition - 1).get(componentPosition - 1);
         } catch (final IndexOutOfBoundsException e) {
             return Value.valueOf(null);
         }
@@ -54,7 +54,7 @@ public final class Segment {
      * @return raw text of segment
      */
     public String print() {
-        StringBuilder s = new StringBuilder();
+        final StringBuilder s = new StringBuilder();
         s.append(this.tag);
         for (final List<Value> composite : this.composites) {
             s.append(EdifactTokenReader.DATA_ELEMENT_SEPARATOR);
@@ -67,7 +67,7 @@ public final class Segment {
                     s.append(EdifactTokenReader.COMPONENT_DATA_ELEMENT_SEPARATOR);
                 }
                 // escape special EDI characters
-                for (char c : value.asString().toCharArray()) {
+                for (final char c : value.asString().toCharArray()) {
                     if (c == EdifactTokenReader.COMPONENT_DATA_ELEMENT_SEPARATOR //
                             || c == EdifactTokenReader.DATA_ELEMENT_SEPARATOR //
                             || c == EdifactTokenReader.RELEASE_CHARACTER //

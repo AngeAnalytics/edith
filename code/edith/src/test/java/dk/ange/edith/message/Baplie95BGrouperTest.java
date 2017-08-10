@@ -9,10 +9,9 @@ import java.util.zip.GZIPInputStream;
 import org.junit.Assert;
 import org.junit.Test;
 
-import dk.ange.edith.message.Baplie95BGrouper;
+import dk.ange.edith.dom.Group;
 import dk.ange.edith.segments.EdifactSegmentReader;
 import dk.ange.edith.segments.Segment;
-import dk.ange.edith.dom.Group;
 
 
 /**
@@ -24,14 +23,14 @@ public class Baplie95BGrouperTest {
      * Test Baplie95B grouping
      * BAPLIE-AAC1-S-AAC1_JUBL_1403_SIN.edi.gz
      * UNH+1820+BAPLIE:D:95B:UN:SMDG20'
-     * 
+     *
      * @throws IOException
      */
     @Test
     public void testBaplie95BGrouper01() throws IOException {
 
         try (final InputStream stream = getResourceAsStream("baplie95B/BAPLIE-AAC1-S-AAC1_JUBL_1403_SIN.edi")) {
-            List<Group> messages = readAndGroupBaplie95BStream(stream);
+            final List<Group> messages = readAndGroupBaplie95BStream(stream);
             Assert.assertEquals(1, messages.size());
 
             Assert.assertNotNull(messages.get(0).getSegment("BGM"));
@@ -80,7 +79,7 @@ public class Baplie95BGrouperTest {
 
             /*
              * 19th container
-             * 
+             *
              * LOC+147+0100314::5'
              * FTX+ZZZ+++HJ'
              * MEA+WT++KGM:9600'

@@ -85,8 +85,8 @@ public final class EdifactSegmentReader extends PrefetchIterator<Segment> implem
     private void checkNextEquals(final Token expected) {
         final Token next = scanner.next();
         if (!expected.equals(next)) {
-            throw new RuntimeException("Did not read the expected element to UNA segment, expected " + expected
-                    + ", got " + next);
+            throw new RuntimeException(
+                    "Did not read the expected element to UNA segment, expected " + expected + ", got " + next);
         }
     }
 

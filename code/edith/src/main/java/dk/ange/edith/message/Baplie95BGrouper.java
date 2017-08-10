@@ -7,6 +7,7 @@ import dk.ange.edith.dom.Transition;
 
 /**
  * Implements grouping of Baplie based on D95B as defined in
+ *
  * <pre>
  * SMDG User Manual ( Implementation Guide )
  * BAPLIE Bayplan Message

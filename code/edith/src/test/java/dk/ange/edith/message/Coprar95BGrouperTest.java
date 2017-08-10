@@ -9,10 +9,9 @@ import java.util.zip.GZIPInputStream;
 import org.junit.Assert;
 import org.junit.Test;
 
-import dk.ange.edith.message.Coprar95BGrouper;
+import dk.ange.edith.dom.Group;
 import dk.ange.edith.segments.EdifactSegmentReader;
 import dk.ange.edith.segments.Segment;
-import dk.ange.edith.dom.Group;
 
 
 /**
@@ -22,13 +21,13 @@ public class Coprar95BGrouperTest {
 
     /**
      * Test Coprar95B grouping
-     * 
+     *
      * @throws IOException
      */
     @Test
     public void testCoprar95BGrouper01() throws IOException {
         try (final InputStream stream = getResourceAsStream("coprar95B/HJSURAN1420W.O.edi")) {
-            List<Group> messages = readAndGroupCoprar95BStream(stream);
+            final List<Group> messages = readAndGroupCoprar95BStream(stream);
             Assert.assertEquals(1, messages.size());
 
             Assert.assertNotNull(messages.get(0).getSegment("BGM"));

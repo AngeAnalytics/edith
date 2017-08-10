@@ -9,10 +9,9 @@ import java.util.zip.GZIPInputStream;
 import org.junit.Assert;
 import org.junit.Test;
 
-import dk.ange.edith.message.Coprar00BGrouper;
+import dk.ange.edith.dom.Group;
 import dk.ange.edith.segments.EdifactSegmentReader;
 import dk.ange.edith.segments.Segment;
-import dk.ange.edith.dom.Group;
 
 
 /**
@@ -22,13 +21,13 @@ public class Coprar00BGrouperTest {
 
     /**
      * Test Coprar00B grouping
-     * 
+     *
      * @throws IOException
      */
     @Test
     public void testCoprar00BGrouper01() throws IOException {
         try (final InputStream stream = getResourceAsStream("coprar00B/BK2COPRARYL74_1420_W_ESALG_X_5110156.edi")) {
-            List<Group> messages = readAndGroupCoprar00BStream(stream);
+            final List<Group> messages = readAndGroupCoprar00BStream(stream);
             Assert.assertEquals(1, messages.size());
 
             Assert.assertEquals(1, messages.get(0).getGroupList(1).size());
@@ -88,13 +87,13 @@ public class Coprar00BGrouperTest {
 
     /**
      * Test Coprar00B grouping
-     * 
+     *
      * @throws IOException
      */
     @Test
     public void testCoprar00BGrouper02() throws IOException {
         try (final InputStream stream = getResourceAsStream("coprar00B/COS_COPRAR_CARGA_AL_RAIN_004W.edi")) {
-            List<Group> messages = readAndGroupCoprar00BStream(stream);
+            final List<Group> messages = readAndGroupCoprar00BStream(stream);
             Assert.assertEquals(1, messages.size());
 
             Assert.assertEquals(1, messages.get(0).getGroupList(1).size());
@@ -170,12 +169,12 @@ public class Coprar00BGrouperTest {
         }
     }
 
-    /** Test Coprar00B grouping 
+    /** Test Coprar00B grouping
      * @throws IOException */
     @Test
     public void testCoprar00BGrouper03() throws IOException {
         try (final InputStream stream = getResourceAsStream("coprar00B/EDIGTR868271.edi")) {
-            List <Group> messages = readAndGroupCoprar00BStream(stream);
+            final List <Group> messages = readAndGroupCoprar00BStream(stream);
             Assert.assertEquals(1, messages.size());
 
             Assert.assertEquals(1, messages.get(0).getGroupList(1).size());

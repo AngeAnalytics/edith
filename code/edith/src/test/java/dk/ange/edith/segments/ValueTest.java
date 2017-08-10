@@ -3,8 +3,6 @@ package dk.ange.edith.segments;
 import org.junit.Assert;
 import org.junit.Test;
 
-import dk.ange.edith.segments.Value;
-
 
 /**
  * Test {@link Value}
