@@ -6,7 +6,7 @@
   <parent>
     <groupId>dk.ange.edith</groupId>
     <artifactId>parent</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.2</version>
   </parent>
 
   <artifactId>demo-baplie-parser</artifactId>

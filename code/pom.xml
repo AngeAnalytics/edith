@@ -4,7 +4,7 @@
 
   <groupId>dk.ange.edith</groupId>
   <artifactId>parent</artifactId>
-  <version>0.0.2-SNAPSHOT</version>
+  <version>0.0.2</version>
   <packaging>pom</packaging>
 
   <name>${project.groupId}:${project.artifactId}</name>
@@ -31,7 +31,7 @@
     <url>https://github.com/AngeAnalytics/edith</url>
     <connection>scm:git:git://github.com/AngeAnalytics/edith.git</connection>
     <developerConnection>scm:git:git@github.com:AngeAnalytics/edith.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>parent-0.0.2</tag>
   </scm>
 
   <distributionManagement>
