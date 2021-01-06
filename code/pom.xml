@@ -134,10 +134,10 @@
       </plugin>
 
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
         <version>${maven-release-plugin.version}</version>
         <configuration>
+          <tagNameFormat>v@{project.version}</tagNameFormat>
           <autoVersionSubmodules>true</autoVersionSubmodules>
           <useReleaseProfile>false</useReleaseProfile>
           <releaseProfiles>release</releaseProfiles>
@@ -149,13 +149,13 @@
     <pluginManagement>
       <plugins>
 
-        <!-- Config to use Java 7 compiler -->
+        <!-- Config to use Java 8 compiler -->
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>${maven-compiler-plugin.version}</version>
           <configuration>
-            <source>1.7</source>
-            <target>1.7</target>
+            <source>1.8</source>
+            <target>1.8</target>
           </configuration>
         </plugin>
 
@@ -167,38 +167,5 @@
       </plugins>
     </pluginManagement>
   </build>
-
-  <profiles>
-
-    <!-- Create graphs over dependencies, see http://mvnplugins.fusesource.org/maven/1.4/maven-graph-plugin/ -->
-    <!-- Usage: mvn -P graph -->
-    <profile>
-      <id>graph</id>
-      <pluginRepositories>
-        <pluginRepository>
-          <id>mvnplugins.fusesource.org</id>
-          <url>http://mvnplugins.fusesource.org/repo/release</url>
-          <releases>
-            <enabled>true</enabled>
-          </releases>
-        </pluginRepository>
-      </pluginRepositories>
-      <build>
-        <defaultGoal>graph:reactor</defaultGoal>
-        <plugins>
-          <plugin>
-            <groupId>org.fusesource.mvnplugins</groupId>
-            <artifactId>maven-graph-plugin</artifactId>
-            <version>1.4</version>
-            <configuration>
-              <hideTransitive>true</hideTransitive>
-              <hideScopes>test</hideScopes>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-  </profiles>
 
 </project>
