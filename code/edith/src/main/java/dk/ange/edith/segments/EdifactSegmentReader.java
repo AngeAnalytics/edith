@@ -6,6 +6,7 @@ import java.util.Iterator;
 import dk.ange.edith.scanner.EdifactTokenReader;
 import dk.ange.edith.scanner.Token;
 import dk.ange.edith.scanner.Token.TokenType;
+import dk.ange.edith.util.EdifactParseRuntimeException;
 import dk.ange.edith.util.PrefetchIterator;
 
 /**
@@ -38,17 +39,23 @@ public final class EdifactSegmentReader extends PrefetchIterator<Segment> implem
         // Tag
         final Token tag = scanner.next();
         if (tag.type() != TokenType.VALUE) {
-            throw new RuntimeException("tag.type() != TokenType.VALUE");
+            throw new EdifactParseRuntimeException("tag.type() != TokenType.VALUE");
         }
         final Segment.Builder builder = new Segment.Builder(tag.value());
         // Data element separator (+)
+        if (!scanner.hasNext()) {
+            throw new EdifactParseRuntimeException("EOF when expecting: Data element separator (+)");
+        }
         final Token separatorAfterTag = scanner.next();
         if (separatorAfterTag.type() != TokenType.DATA_ELEMENT_SEPARATOR) {
-            throw new RuntimeException("separatorAfterTag.type() != TokenType.DATA_ELEMENT_SEPARATOR");
+            throw new EdifactParseRuntimeException("separatorAfterTag.type() != TokenType.DATA_ELEMENT_SEPARATOR");
         }
         // The rest...
         boolean readyForValue = true;
         while (true) {
+            if (!scanner.hasNext()) {
+                throw new EdifactParseRuntimeException("EOF when reading unfinished Segment");
+            }
             final Token token = scanner.next();
             switch (token.type()) {
             case VALUE:
@@ -73,6 +80,9 @@ public final class EdifactSegmentReader extends PrefetchIterator<Segment> implem
 
     private void consumePossibleUnaSegment() {
         final Token una = scanner.peek();
+        if (una == null) {
+            return;
+        }
         if (una.type() == TokenType.VALUE && una.value().equals("UNA")) {
             scanner.next(); // pop UNA that was peeked
             checkNextEquals(Token.COMPONENT_DATA_ELEMENT_SEPARATOR);
@@ -83,9 +93,12 @@ public final class EdifactSegmentReader extends PrefetchIterator<Segment> implem
     }
 
     private void checkNextEquals(final Token expected) {
+        if (!scanner.hasNext()) {
+            throw new EdifactParseRuntimeException("EOF when checking UNA segment");
+        }
         final Token next = scanner.next();
         if (!expected.equals(next)) {
-            throw new RuntimeException(
+            throw new EdifactParseRuntimeException(
                     "Did not read the expected element to UNA segment, expected " + expected + ", got " + next);
         }
     }
