@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.PushbackInputStream;
 import java.util.Iterator;
 
+import dk.ange.edith.util.EdifactParseRuntimeException;
 import dk.ange.edith.util.PrefetchIterator;
 
 /**
@@ -59,7 +60,7 @@ public final class EdifactTokenReader extends PrefetchIterator<Token> implements
                 return readDataElementValue(character);
             }
         } catch (final IOException e) {
-            throw new RuntimeException(e);
+            throw new EdifactParseRuntimeException(e);
         }
     }
 
@@ -82,7 +83,7 @@ public final class EdifactTokenReader extends PrefetchIterator<Token> implements
                 // throw new IllegalStateException("Released b=" + (char) nextByte);
                 // }
                 if (nextByte == -1) {
-                    throw new IllegalStateException("End of file after RELEASE_CHARACTER");
+                    throw new EdifactParseRuntimeException("End of file after RELEASE_CHARACTER");
                 }
             } else {
                 if (isServiceCharacter(nextByte)) {

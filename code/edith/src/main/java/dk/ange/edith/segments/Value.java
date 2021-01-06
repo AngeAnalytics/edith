@@ -151,7 +151,7 @@ public final class Value {
 
     @Override
     public String toString() {
-        return "\"" + data + "\"";
+        return data == null ? "null" : "\"" + data + "\"";
     }
 
 }
