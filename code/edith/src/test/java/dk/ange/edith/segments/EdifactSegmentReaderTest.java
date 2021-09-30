@@ -42,6 +42,7 @@ public class EdifactSegmentReaderTest {
         assertParseError("UNA:+'");
         assertParseError("UNA:+. +");
         assertEquals(null, segment("UNA:+. '"));
+        assertEquals(null, segment("UNA:+, '")); // Also allow comma as decimal mark
     }
 
     @Test
