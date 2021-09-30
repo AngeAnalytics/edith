@@ -22,7 +22,7 @@
     <developer>
       <name>Kim Hansen</name>
       <email>kim@rthansen.dk</email>
-      <organization>Ange Analytics IVS</organization>
+      <organization>Ange Analytics ApS</organization>
       <organizationUrl>http://ange.dk</organizationUrl>
     </developer>
   </developers>
@@ -57,17 +57,17 @@
     <!-- Fix: [WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent! -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-    <guava.version>30.1-jre</guava.version>
-    <junit.version>4.13.1</junit.version>
-    <slf4j.version>1.7.30</slf4j.version>
+    <guava.version>31.0.1-jre</guava.version>
+    <junit.version>4.13.2</junit.version>
+    <slf4j.version>1.7.32</slf4j.version>
 
     <!-- Maven Plugins -->
     <maven-assembly-plugin.version>3.3.0</maven-assembly-plugin.version>
     <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
     <maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
-    <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
-    <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
-    <maven-release-plugin.version>3.0.0-M1</maven-release-plugin.version>
+    <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
+    <maven-javadoc-plugin.version>3.3.1</maven-javadoc-plugin.version>
+    <maven-release-plugin.version>3.0.0-M4</maven-release-plugin.version>
     <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
     <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
 
@@ -123,6 +123,9 @@
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>${maven-javadoc-plugin.version}</version>
+        <configuration>
+          <source>8</source>
+        </configuration>
         <executions>
           <execution>
             <id>attach-javadocs</id>

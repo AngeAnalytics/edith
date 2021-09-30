@@ -16,7 +16,7 @@ public class X12TokenReader extends PrefetchIterator<Token> implements Iterator<
     private final PushbackInputStream pushbackInputStream;
 
     /**
-     * COMPONENT_DATA_ELEMENT_SEPARATOR = '>'
+     * COMPONENT_DATA_ELEMENT_SEPARATOR = '&gt;'
      */
     public static final char COMPONENT_DATA_ELEMENT_SEPARATOR = '>';
 

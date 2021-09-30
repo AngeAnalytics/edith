@@ -1,6 +1,7 @@
 package dk.ange.edith.segments;
 
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Iterator;
 
 import dk.ange.edith.scanner.EdifactTokenReader;
@@ -87,20 +88,24 @@ public final class EdifactSegmentReader extends PrefetchIterator<Segment> implem
             scanner.next(); // pop UNA that was peeked
             checkNextEquals(Token.COMPONENT_DATA_ELEMENT_SEPARATOR);
             checkNextEquals(Token.DATA_ELEMENT_SEPARATOR);
-            checkNextEquals(new Token(". ")); // Decimal notation, Release indicator, Reserved for future use
+            // Decimal notation, Release indicator, Reserved for future use:
+            checkNextEquals(new Token(". "), new Token(", "));
             checkNextEquals(Token.SEGEMENT_TERMINATOR);
         }
     }
 
-    private void checkNextEquals(final Token expected) {
+    private void checkNextEquals(final Token... expected) {
         if (!scanner.hasNext()) {
             throw new EdifactParseRuntimeException("EOF when checking UNA segment");
         }
         final Token next = scanner.next();
-        if (!expected.equals(next)) {
-            throw new EdifactParseRuntimeException(
-                    "Did not read the expected element to UNA segment, expected " + expected + ", got " + next);
+        for (final Token exp : expected) {
+            if (exp.equals(next)) {
+                return;
+            }
         }
+        throw new EdifactParseRuntimeException("Did not read the expected element to UNA segment,"
+                + " expected " + Arrays.toString(expected) + ", got " + next);
     }
 
 }
