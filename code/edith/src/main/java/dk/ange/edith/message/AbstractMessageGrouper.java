@@ -1,11 +1,11 @@
 package dk.ange.edith.message;
 
 import com.google.common.collect.ImmutableTable;
-
+import com.google.common.collect.PeekingIterator;
 import dk.ange.edith.dom.Group;
 import dk.ange.edith.dom.SegmentGrouper;
 import dk.ange.edith.dom.Transition;
-import dk.ange.edith.segments.EdifactSegmentReader;
+import dk.ange.edith.segments.Segment;
 
 /**
  * The skeleton for a grouper that can group the segments for a particular message format
@@ -30,7 +30,7 @@ public abstract class AbstractMessageGrouper {
      * @param segmentReader
      * @return a group created from the segments read out of the segment reader
      */
-    public Group group(final EdifactSegmentReader segmentReader) {
+    public Group group(final PeekingIterator<Segment> segmentReader) {
         return segmentGrouper.group(segmentReader);
     }
 

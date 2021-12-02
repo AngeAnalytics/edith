@@ -2,6 +2,7 @@ package dk.ange.edith.segments;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import dk.ange.edith.scanner.EdifactTokenReader;
 
@@ -48,6 +49,16 @@ public final class Segment {
         } catch (final IndexOutOfBoundsException e) {
             return Value.valueOf(null);
         }
+    }
+
+    public List<List<String>> getComposites() {
+        return composites.stream()
+                .map(l -> {
+                    return l.stream()
+                            .map(v -> v.asString(null))
+                            .collect(Collectors.toList());
+                })
+                .collect(Collectors.toList());
     }
 
     /**

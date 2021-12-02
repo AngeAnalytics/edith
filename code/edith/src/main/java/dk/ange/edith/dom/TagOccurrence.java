@@ -5,18 +5,35 @@ package dk.ange.edith.dom;
  * multiple times in a group, the first use is occurrence 1 the second 2 etc.
  */
 // Used in Group and SegmentGrouper
-class TagOccurrence {
+public class TagOccurrence {
 
     private final String tag;
 
     private final int occurrence;
 
-    TagOccurrence(final String tag, final int occurrence) {
+    public TagOccurrence(final String tag, final int occurrence) {
         if (tag == null) {
             throw new NullPointerException("tag == null");
         }
         this.tag = tag;
         this.occurrence = occurrence;
+    }
+
+    public static TagOccurrence fromIdentifier(final String identifier) {
+        final String[] split = identifier.split("/", 2);
+        if (split.length == 1) {
+            return new TagOccurrence(identifier, 1);
+        } else { // split.length == 2
+            return new TagOccurrence(split[0], Integer.parseInt(split[1]));
+        }
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public int getOccurrence() {
+        return occurrence;
     }
 
     @Override
@@ -56,6 +73,14 @@ class TagOccurrence {
     @Override
     public String toString() {
         return "TagOccurrence(" + tag + "/" + occurrence + ")";
+    }
+
+    public String asIdentifier() {
+        if (occurrence == 1) {
+            return tag;
+        } else {
+            return tag + "/" + occurrence;
+        }
     }
 
 }

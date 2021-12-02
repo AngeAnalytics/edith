@@ -1,14 +1,15 @@
 package dk.ange.edith.util;
 
-import java.util.Iterator;
 import java.util.NoSuchElementException;
+
+import com.google.common.collect.PeekingIterator;
 
 /**
  * Iterator implemented by prefetching the next element
  *
  * @param <T>
  */
-public abstract class PrefetchIterator<T> implements Iterator<T> {
+public abstract class PrefetchIterator<T> implements PeekingIterator<T> {
 
     private boolean nextIsValid = false;
 
@@ -46,6 +47,7 @@ public abstract class PrefetchIterator<T> implements Iterator<T> {
     /**
      * @return the next element without advancing the iterator, will return null if there is no more elements
      */
+    @Override
     public T peek() {
         makeNextValid();
         return next;

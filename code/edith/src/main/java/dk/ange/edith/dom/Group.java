@@ -1,8 +1,11 @@
 package dk.ange.edith.dom;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -39,6 +42,14 @@ public class Group {
         return groups;
     }
 
+    public Map<TagOccurrence, Collection<Segment>> getSegments() {
+        return segments.asMap();
+    }
+
+    public Map<Integer, Collection<Group>> getGroups() {
+        return groups.asMap();
+    }
+
     /**
      * @param tag
      * @param occurrence
@@ -55,6 +66,23 @@ public class Group {
      */
     public List<Segment> getSegmentList(final String tag) {
         return getSegmentList(tag, 1);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(groups, segments);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Group other = (Group) obj;
+        return Objects.equals(groups, other.groups) && Objects.equals(segments, other.segments);
     }
 
     /**

@@ -2,8 +2,8 @@ package dk.ange.edith.segments;
 
 import java.io.InputStream;
 import java.util.Arrays;
-import java.util.Iterator;
 
+import com.google.common.collect.PeekingIterator;
 import dk.ange.edith.scanner.EdifactTokenReader;
 import dk.ange.edith.scanner.Token;
 import dk.ange.edith.scanner.Token.TokenType;
@@ -13,7 +13,7 @@ import dk.ange.edith.util.PrefetchIterator;
 /**
  * Collects the scanned tokens into Segments
  */
-public final class EdifactSegmentReader extends PrefetchIterator<Segment> implements Iterator<Segment> {
+public final class EdifactSegmentReader extends PrefetchIterator<Segment> implements PeekingIterator<Segment> {
 
     private final EdifactTokenReader scanner;
 

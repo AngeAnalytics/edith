@@ -4,7 +4,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 import com.google.common.collect.ImmutableTable;
-
+import com.google.common.collect.PeekingIterator;
 import dk.ange.edith.segments.EdifactSegmentReader;
 import dk.ange.edith.segments.Segment;
 
@@ -32,7 +32,7 @@ public class SegmentGrouper {
      * @param segmentReader
      * @return the entire BAPLIE as a Group
      */
-    public Group group(final EdifactSegmentReader segmentReader) {
+    public Group group(final PeekingIterator<Segment> segmentReader) {
         final Group.Builder group0Builder = new Group.Builder();
 
         // UNH
