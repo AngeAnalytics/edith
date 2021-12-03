@@ -2,6 +2,7 @@ Release
 -------
 
 ```
+export GPG_TTY=$(tty)
 mvn --batch-mode release:prepare release:perform
 ```
 
